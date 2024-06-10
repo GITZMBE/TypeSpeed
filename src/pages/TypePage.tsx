@@ -139,10 +139,22 @@ const TypePage = () => {
     }
   }, [wordIndex, letterIndex]);
 
+  const calculateWrongWords = (wrongLetters: LetterCoordinate[]) => {
+    let wrongWords: LetterCoordinate[] = [];
+    for (const letterCoord of wrongLetters) {
+      const isOtherLetterInWord = wrongWords.some(c => c.wordCoord === letterCoord.wordCoord);
+      if (isOtherLetterInWord) {
+        continue;
+      }
+      wrongWords = [...wrongWords, letterCoord];
+    }
+    return wrongWords.length;
+  };
+
   useEffect(() => {
     if (startTime && endTime) {
       const duration = (endTime - startTime) / 1000;
-      navigate(`/stats?time=${duration}&words=${wordArray.length}`);
+      navigate(`/stats?time=${duration}&words=${wordArray.length}&wrongWords=${calculateWrongWords(wrongLetters)}`);
     }
   }, [endTime]);
 
