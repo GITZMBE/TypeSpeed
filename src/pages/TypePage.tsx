@@ -15,8 +15,8 @@ const TypePage = () => {
   const [correctLetters, setCorrectLetters] = useState<LetterCoordinate[]>([]);
   const [wrongLetters, setWrongLetters] = useState<LetterCoordinate[]>([]);
 
-  const [startTime, setStartTime] = useState<number>();
-  const [endTime, setEndTime] = useState<number>();
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (sentence === "") {
@@ -151,12 +151,25 @@ const TypePage = () => {
     return wrongWords.length;
   };
 
+  const setToDefault = () => {
+    setSentence("");
+    setWordArray([]);
+    setWordIndex(0);
+    setLetterIndex(0);
+    setSearchbarFocus(false);
+    setCorrectLetters([]);
+    setWrongLetters([]);
+    setStartTime(null);
+    setEndTime(null);
+  };
+
   useEffect(() => {
     if (startTime && endTime) {
       const duration = (endTime - startTime) / 1000;
-      navigate(`/stats?time=${duration}&words=${wordArray.length}&wrongWords=${calculateWrongWords(wrongLetters)}`);
+      navigate(`/stats?time=${duration}&words=${wordArray.length}&wrong_words=${calculateWrongWords(wrongLetters)}`);
+      setToDefault();
     }
-  }, [endTime]);
+  }, [startTime, endTime]);
 
   const FetchRandomWord = async (): Promise<string> => {
     try {
