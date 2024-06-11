@@ -11,7 +11,7 @@ const StatsPage = () => {
     setTime(searchParams.get('time'));
     setWords(searchParams.get('words'));
     setWrongWords(searchParams.get('wrong_words') || '0');
-  }, []);
+  }, [searchParams, setSearchParams]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-8">
