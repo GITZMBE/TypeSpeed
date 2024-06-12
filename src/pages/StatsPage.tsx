@@ -20,7 +20,7 @@ const StatsPage = () => {
       <h1 className='text-5xl text-yellowAcent font-robotoMono'>StatsPage</h1>
       {result && (
         <>
-          {/* <StatsChart data={[new TypingResult(time, words, wrongWords)]} /> */}
+          <StatsChart data={result} className="w-4/5 h-2/5" />
           <div className='flex items-center gap-4 text-secondary'>
             <span>words: {result.words}</span>
             <span>time: {result.time.toFixed(3)} s</span>
