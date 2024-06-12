@@ -1,7 +1,7 @@
 import { atom } from "recoil";
-import TypingResult from "../classes/TypingResult";
+import TypingResult from "../models/TypingResult";
 
-export const TypeResultState = atom<TypingResult | undefined>({
+export const TypingResultState = atom<TypingResult | null>({
   key: "TypeResultState",
-  default: undefined
+  default: null,
 });
