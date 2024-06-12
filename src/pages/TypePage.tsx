@@ -26,6 +26,10 @@ const TypePage = () => {
   const [words, setWords] = useState<string[]>([]);
   const [displayWords, setDisplayWords] = useState<string[]>([]);
 
+  const [currentWpm, setCurrentWpm] = useState<number | null>(null);
+  const [history, setHistory] = useState<number[]>([]);
+  const historyRef = useRef<number[]>(history);
+
   const [wordIndex, setWordIndex] = useState<number>(0);
   const [letterIndex, setLetterIndex] = useState<number>(0);
   const [searchbarFocus, setSearchbarFocus] = useState<boolean>(false);
@@ -37,7 +41,9 @@ const TypePage = () => {
   const [endTime, setEndTime] = useState<number | null>(null);
 
   const wordIndexRef = useRef(wordIndex);
+  const letterIndexRef = useRef(letterIndex);
   const wrongLettersRef = useRef(wrongLetters);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     wordIndexRef.current = wordIndex;
@@ -48,6 +54,10 @@ const TypePage = () => {
   }, [wrongLetters]);
 
   useEffect(() => {
+    historyRef.current = history;
+  }, [history]);
+
+  useEffect(() => {
     if (words.length > 0 && displayWords.length > 0) return;
     FetchRandomWords()
       .then((res) => {
@@ -56,14 +66,37 @@ const TypePage = () => {
       });
   }, [words, displayWords]);
 
+  const calculateWrongWords = (wrongLetters: LetterCoordinate[]) => {
+    let wrongWords: LetterCoordinate[] = [];
+    for (const letterCoord of wrongLetters) {
+      const isOtherLetterInWord = wrongWords.some(
+        (c) => c.wordCoord === letterCoord.wordCoord
+      );
+      if (isOtherLetterInWord) {
+        continue;
+      }
+      wrongWords = [...wrongWords, letterCoord];
+    }
+    return wrongWords.length;
+  };
+
+  const calcWpm = (elapsedTimeInMs: number) => {
+    const fullWords = wordIndexRef.current - calculateWrongWords(wrongLettersRef.current);
+    const notCompletedWords = letterIndexRef.current / displayWords[wordIndexRef.current].length;
+    return Math.round(1000 * 60 * (fullWords + notCompletedWords) / elapsedTimeInMs);
+  };
+
   const startTimer = () => {
     if (!settings.selectedTime || !time) return;
 
     let t = 1;
-    const interval = setInterval(() => {
-      if (time === t && settings.selectedTime) {
+    intervalRef.current = setInterval(() => {
+      const currentWpm = calcWpm(t * 1000);
+      setCurrentWpm(currentWpm);
+      setHistory((prevHistory) => [...prevHistory, currentWpm]);
+      if (settings.selectedTime && t === time) {
         finishTest();
-        clearInterval(interval);
+        clearInterval(intervalRef.current!);
         return;
       }
       setTime((prevTime) => (prevTime !== null ? prevTime - 1 : null));
@@ -71,12 +104,37 @@ const TypePage = () => {
     }, 1000);
   };
 
+  const startHistoryTimer = () => {
+    if (!startTime) return;
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(() => {
+      if (
+        wordIndex === displayWords.length - 1 &&
+        letterIndex === displayWords[displayWords.length - 1].length
+      ) {
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
+        return;
+      }
+      const currentTime = new Date().getTime();
+      const currentWpm = calcWpm(currentTime - startTime);
+      setCurrentWpm(currentWpm);
+      setHistory((prevHistory) => [...prevHistory, currentWpm]);
+    }, 1000);
+  };
+  
   const startTest = () => {
     if (wordIndex === 0 && letterIndex === 0) {
+      // words
       if (settings.wordsAmount) {
         setResult(null);
         setStartTime(new Date().getTime());
         setTestHasStarted(true);
+      // time
       } else if (settings.selectedTime) {
         startTimer();
         setTestHasStarted(true);
@@ -180,21 +238,8 @@ const TypePage = () => {
     }
   }, [wordIndex, letterIndex]);
 
-  const calculateWrongWords = (wrongLetters: LetterCoordinate[]) => {
-    let wrongWords: LetterCoordinate[] = [];
-    for (const letterCoord of wrongLetters) {
-      const isOtherLetterInWord = wrongWords.some(
-        (c) => c.wordCoord === letterCoord.wordCoord
-      );
-      if (isOtherLetterInWord) {
-        continue;
-      }
-      wrongWords = [...wrongWords, letterCoord];
-    }
-    return wrongWords.length;
-  };
-
   const setToDefault = () => {
+    setTestHasStarted(false);
     setSettings({
       difficulty: DIFFECULTY.NORMAL,
       wordsAmount: null,
@@ -202,6 +247,8 @@ const TypePage = () => {
     });
     setTime(null);
     setWords([]);
+    setCurrentWpm(null);
+    setHistory([]);
     setWordIndex(0);
     setLetterIndex(0);
     setSearchbarFocus(false);
@@ -212,34 +259,39 @@ const TypePage = () => {
   };
 
   const finishTest = () => {
+    if (!settings.selectedTime && !endTime) return;
+
+    // words
     if (startTime && endTime) {
       const duration = (endTime - startTime) / 1000;
       setResult(
         new TypingResult(
           duration,
           displayWords.length,
-          calculateWrongWords(wrongLetters)
+          calculateWrongWords(wrongLetters),
+          history
         )
       );
-      navigate(`/stats`);
-      setToDefault();
-      return;
-    };
-    if (settings.selectedTime) {
+    // time
+    } else if (!startTime && settings.selectedTime && !endTime) {
       setResult(
         new TypingResult(
           settings.selectedTime,
           wordIndexRef.current,
-          calculateWrongWords(wrongLettersRef.current)
+          calculateWrongWords(wrongLettersRef.current),
+          historyRef.current
         )
       );
-      navigate(`/stats`);
-      setToDefault();
-      return;
     }
+    
+    navigate(`/stats`);
+    setToDefault();
   };
 
   useEffect(() => {
+    if (settings.wordsAmount && startTime) {
+      startHistoryTimer();
+    }
     finishTest();
   }, [startTime, endTime]);
 
@@ -294,8 +346,10 @@ const TypePage = () => {
         <div className='w-full flex flex-col justify-center items-center text-xl text-secondary'>
           <h2>Current Speed</h2>
           <div className='flex gap-8 items-center'>
-            {/* <p>{wpm ? wpm.toFixed(2) : undefined} wpm</p>
-            <p>{cpm ? cpm.toFixed(2) : undefined} cpm</p> */}
+            {(testHasStarted && currentWpm) && (
+              <p>{currentWpm} wpm</p>
+            )}
+            {/* <p>{cpm ? cpm.toFixed(2) : undefined} cpm</p> */}
           </div>
         </div>
           <div className={`w-full flex transition-opacity duration-300 ${testHasStarted && "opacity-0"}`}>
