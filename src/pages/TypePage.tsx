@@ -330,9 +330,6 @@ const TypePage = () => {
     }
   };
 
-  // const wpm = startTime ? (60 * wordIndex / ((new Date().getTime() - startTime) / 1000 / 60)) : undefined;
-  // const cpm = startTime ? (60 * correctLetters.length / ((new Date().getTime() - startTime) / 1000 / 60)) : undefined;
-
   return (
     <div
       onClick={(e: any) => {
