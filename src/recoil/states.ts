@@ -4,15 +4,15 @@ import TypingSettings from "../models/TypingSettings";
 import DIFFECULTY from "../models/DIFFECULTY";
 
 export const TypingResultState = atom<TypingResult | null>({
-  key: "TypingResultState",
+  key: "TypingResult",
   default: null,
 });
 
 export const SettingsState = atom<TypingSettings>({
-  key: "SettingsState",
+  key: "Settings",
   default: {
     difficulty: DIFFECULTY.NORMAL,
-    wordsAmount: null,
+    wordsAmount: 10,
     selectedTime: null,
   }
 });
