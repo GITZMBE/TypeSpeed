@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import StatsPage from "./pages/StatsPage";
-import TypePage from "./pages/TypePage";
+import TypePage from "./pages/TypingPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 

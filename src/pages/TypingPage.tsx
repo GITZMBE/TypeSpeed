@@ -9,7 +9,7 @@ import DIFFECULTY from "../models/DIFFECULTY";
 import Settingsbar from "../components/Settingsbar";
 var randomWord = require("random-word-by-length");
 
-const TypePage = () => {
+const TypingPage = () => {
   const navigate = useNavigate();
   const setResult = useSetRecoilState(TypingResultState);
   const [settings, setSettings] = useRecoilState(SettingsState);
@@ -235,7 +235,7 @@ const TypePage = () => {
     setTestHasStarted(false);
     setSettings({
       difficulty: DIFFECULTY.NORMAL,
-      wordsAmount: null,
+      wordsAmount: 10,
       selectedTime: null,
     });
     setTime(null);
@@ -384,4 +384,4 @@ const TypePage = () => {
   );
 };
 
-export default TypePage;
+export default TypingPage;

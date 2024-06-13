@@ -40,7 +40,18 @@ const Settingsbar = ({ testHasStarted }: IProps) => {
         {["time", "words"].map((type) => (
           <button
             key={type}
-            onClick={() => setSettingsType(type)}
+            onClick={() => {
+              setSettingsType(type);
+              setSettings((prevSettings) => {
+                if (type === "time") {
+                  return { ...prevSettings, selectedTime: 15, wordsAmount: null };
+                } else if (type === "words") {
+                  return { ...prevSettings, wordsAmount: 10, selectedTime: null };
+                } else {
+                  return prevSettings;
+                }
+              });
+            }}
             className={`flex items-center gap-2 text-xl ${
               settingsType === type
                 ? "text-yellowAcent"

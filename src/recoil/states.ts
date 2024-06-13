@@ -12,7 +12,7 @@ export const SettingsState = atom<TypingSettings>({
   key: "Settings",
   default: {
     difficulty: DIFFECULTY.NORMAL,
-    wordsAmount: null,
+    wordsAmount: 10,
     selectedTime: null,
   }
 });
