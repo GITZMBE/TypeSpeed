@@ -11,11 +11,12 @@ interface IForm {
 };
 
 export const SignupForm = () => {
-  const { register, handleSubmit } = useForm<IForm>({defaultValues: { username: '', email: '', password: '' }});
+  const { register, handleSubmit, reset } = useForm<IForm>({defaultValues: { username: '', email: '', password: '' }});
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    signup(data.username, data.email, data.password);
+    reset();
+    // signup(data.username, data.email, data.password);
   };
 
   return (
@@ -29,7 +30,7 @@ export const SignupForm = () => {
         <h3 className='text-light'>Password</h3>
         <div className='relative w-full'>
           <input type={show ? "text" : "password"} {...register('password')} className='w-full px-2 rounded-full py-1' />
-          <TogglePassword state={show} setState={setShow} className='absolute top-[2px] right-2' />
+          <TogglePassword state={show} setState={setShow} className='absolute top-[5px] right-4' />
         </div>
       </div>
       <div className='w-full flex flex-col items-center gap-2'>
