@@ -45,7 +45,7 @@ const StatsChart = ({ data, className, ...props }: IProps) => {
     return () => {
       window.removeEventListener("resize", updateDimensions);
     };
-  }, []);
+  }, [chartRef]);
 
   const chartData = {
     labels: data.history.map((_, index) => index + 1),
