@@ -72,3 +72,7 @@ export const getCurrentUser = async () => {
   // return currentUser;
   return user;
 };
+
+export const logout = () => {
+  localStorage.removeItem(USER_KEY);
+};

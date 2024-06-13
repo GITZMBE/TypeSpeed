@@ -14,8 +14,9 @@ export const LoginForm = () => {
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    reset();
     login(data.email, data.password);
+    window.location.reload();
+    reset();
   };
 
   return (

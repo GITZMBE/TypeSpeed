@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdTypeSpecimen } from "react-icons/md";
 import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser, logout } from "src/auth/authHandler";
+import { User } from "@prisma/client";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    getCurrentUser().then(setUser);
+  }, []);
 
   return (
     <header className='flex justify-between items-center w-full max-w-7xl py-4'>
@@ -26,6 +32,9 @@ export const Header = () => {
       <div className='flex gap-4 items-center'>
         <FaBell className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
         <FaUser onClick={() => navigate('/login')} className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
+        {user && (
+          <button onClick={() => {logout(); setUser(null); window.location.reload()}} className="text-secondary hover:light cursor-pointer">Logout</button>
+        )}
       </div>
     </header>
   );
