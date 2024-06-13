@@ -6,6 +6,7 @@ import TypePage from "./pages/TypingPage";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='stats' element={<StatsPage />} />
           <Route path='typing' element={<TypePage />} />
           <Route path='login' element={<LoginPage />} />
+          <Route path='signup' element={<SignupPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
