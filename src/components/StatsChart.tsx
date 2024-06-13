@@ -51,10 +51,10 @@ const StatsChart = ({ data, className, ...props }: IProps) => {
     labels: data.history.map((_, index) => index + 1),
     datasets: [
       {
-        label: "Words Per Minute (WPM)",
+        label: "",
         data: data.history,
         fill: false,
-        borderColor: "#646669",
+        borderColor: "#E2B714",
         backgroundColor: "#323437",
         tension: 0.4,
       },
@@ -64,13 +64,16 @@ const StatsChart = ({ data, className, ...props }: IProps) => {
   const options = {
     responsive: true,
     plugins: {
+      legend: {
+        display: false
+      },
       title: {
         display: false
       },
       tooltip: {
         callbacks: {
           label: function(tooltipItem: any) {
-            return `WPM: ${tooltipItem.raw}`;
+            return `wpm: ${tooltipItem.raw}`;
           }
         }
       }
@@ -82,9 +85,10 @@ const StatsChart = ({ data, className, ...props }: IProps) => {
         }
       },
       y: {
+        min: 0,
         title: {
           display: true,
-          text: 'WPM'
+          text: 'wpm'
         }
       }
     }
