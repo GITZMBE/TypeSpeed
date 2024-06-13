@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import prisma from '../../prisma';
+import prisma from '@prisma/index';
 import bcrypt from "bcrypt";
 
 const USER_KEY = "user";
