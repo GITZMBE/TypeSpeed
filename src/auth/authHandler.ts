@@ -1,17 +1,21 @@
 import { User } from '@prisma/client';
 import prisma from '../../prisma';
+import bcrypt from "bcrypt";
 
 const USER_KEY = "user";
 
 export const login = async (email: string, password: string) => {
   const foundUser = await prisma.user.findUnique({
     where: {
-      email,
-      password
+      email
     }
   });
 
   if (!foundUser) return;
+
+  const isCorrectPassword = await bcrypt.compare(password, foundUser.password);
+
+  if (!isCorrectPassword) return;
 
   localStorage.setItem(USER_KEY, JSON.stringify(foundUser));
 
@@ -26,12 +30,14 @@ export const signup = async (username: string, email: string, password: string) 
   });
 
   if (foundUser) return;
-
+  
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = bcrypt.hashSync(password, salt);
   const newUser: User = await prisma.user.create({
     data: {
       username,
       email,
-      password
+      password: hashedPassword
     }
   });
 

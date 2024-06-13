@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TogglePassword } from '../ui';
 import { Link } from 'react-router-dom';
+import { login } from '../../auth/authHandler';
 
 interface IForm { 
   email: string, 
@@ -13,7 +14,7 @@ export const LoginForm = () => {
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    console.log(data)
+    login(data.email, data.password);
   };
 
   return (
@@ -21,10 +22,10 @@ export const LoginForm = () => {
       <h2 className='text-4xl text-yellowAcent font-bold'>Sign In</h2>
       <div className='w-full flex flex-col gap-2'>
         <h3 className='text-light'>Email</h3>
-        <input type="text" required {...register('email')} className='px-2 rounded-full' />
+        <input type="text" required {...register('email')} className='px-2 rounded-full py-1' />
         <h3 className='text-light'>Password</h3>
         <div className='relative w-full'>
-          <input type={show ? "text" : "password"} {...register('password')} className='w-full px-2 rounded-full' />
+          <input type={show ? "text" : "password"} {...register('password')} className='w-full px-2 rounded-full py-1' />
           <TogglePassword state={show} setState={setShow} className='absolute top-[2px] right-2' />
         </div>
       </div>

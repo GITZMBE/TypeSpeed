@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TogglePassword } from '../ui';
 import { Link } from 'react-router-dom';
+import { signup } from '../../auth/authHandler';
 
 interface IForm {
   username: string;
@@ -10,15 +11,11 @@ interface IForm {
 };
 
 export const SignupForm = () => {
-  const { register, handleSubmit, reset } = useForm<IForm>({defaultValues: { username: '', email: '', password: '' }});
+  const { register, handleSubmit } = useForm<IForm>({defaultValues: { username: '', email: '', password: '' }});
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    try {
-      console.log(data);
-    } finally {
-      reset();
-    }
+    signup(data.username, data.email, data.password);
   };
 
   return (
@@ -26,12 +23,12 @@ export const SignupForm = () => {
       <h2 className='text-4xl text-yellowAcent font-bold'>Sign Up</h2>
       <div className='w-full flex flex-col gap-2'>
         <h3 className='text-light'>Username</h3>
-        <input type="text" {...register('username')} className='px-2 rounded-full' />
+        <input type="text" {...register('username')} className='px-2 rounded-full py-1' />
         <h3 className='text-light'>Email</h3>
         <input type="text" {...register('email')} className='px-2 rounded-full' />
         <h3 className='text-light'>Password</h3>
         <div className='relative w-full'>
-          <input type={show ? "text" : "password"} {...register('password')} className='w-full px-2 rounded-full' />
+          <input type={show ? "text" : "password"} {...register('password')} className='w-full px-2 rounded-full py-1' />
           <TogglePassword state={show} setState={setShow} className='absolute top-[2px] right-2' />
         </div>
       </div>
