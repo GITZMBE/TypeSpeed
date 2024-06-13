@@ -15,7 +15,7 @@ export const LoginForm = () => {
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     reset();
-    // login(data.email, data.password);
+    login(data.email, data.password);
   };
 
   return (

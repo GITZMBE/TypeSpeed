@@ -5,47 +5,51 @@ import bcrypt from "bcrypt";
 const USER_KEY = "user";
 
 export const login = async (email: string, password: string) => {
-  const foundUser = await prisma.user.findUnique({
-    where: {
-      email
-    }
-  });
+  // const foundUser = await prisma.user.findUnique({
+  //   where: {
+  //     email
+  //   }
+  // });
 
-  if (!foundUser) return;
+  // if (!foundUser) return;
 
-  const isCorrectPassword = await bcrypt.compare(password, foundUser.password);
+  // const isCorrectPassword = await bcrypt.compare(password, foundUser.password);
 
-  if (!isCorrectPassword) return;
+  // if (!isCorrectPassword) return;
 
-  localStorage.setItem(USER_KEY, JSON.stringify(foundUser));
+  // localStorage.setItem(USER_KEY, JSON.stringify(foundUser));
 
-  return foundUser;
+  // return foundUser;
+
+  localStorage.setItem(USER_KEY, JSON.stringify({ email, password }));
+  return { email, password };
 };
 
 export const signup = async (username: string, email: string, password: string) => {
-  const foundUser = await prisma.user.findUnique({
-    where: {
-      email
-    }
-  });
+  // const foundUser = await prisma.user.findUnique({
+  //   where: {
+  //     email
+  //   }
+  // });
 
-  if (foundUser) return;
+  // if (foundUser) return;
   
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = bcrypt.hashSync(password, salt);
-  const newUser: User = await prisma.user.create({
-    data: {
-      username,
-      email,
-      password: hashedPassword
-    }
-  });
+  // const salt = await bcrypt.genSalt(10);
+  // const hashedPassword = bcrypt.hashSync(password, salt);
+  // const newUser: User = await prisma.user.create({
+  //   data: {
+  //     username,
+  //     email,
+  //     password: hashedPassword
+  //   }
+  // });
 
-  if (!newUser) return;
+  // if (!newUser) return;
 
-  localStorage.setItem(USER_KEY, JSON.stringify(newUser));
+  // localStorage.setItem(USER_KEY, JSON.stringify(newUser));
 
-  return newUser;
+  // return newUser;
+  return {username, email, password};
 };
 
 export const getCurrentUser = async () => {
@@ -54,13 +58,17 @@ export const getCurrentUser = async () => {
 
   const user: User = JSON.parse(string);
 
-  prisma.user.findUnique({
-    where: {
-      email: user.email
-    },
-    include: {
-      results: true
-    }
-  })
+  // const currentUser = await prisma.user.findUnique({
+  //   where: {
+  //     email: user.email
+  //   },
+  //   include: {
+  //     results: true
+  //   }
+  // });
+
+  // if (!currentUser) return;
+
+  // return currentUser;
   return user;
 };
