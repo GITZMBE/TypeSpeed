@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import StatsPage from "./pages/StatsPage";
 import TypePage from "./pages/TypingPage";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='' element={<HomePage />} />
           <Route path='stats' element={<StatsPage />} />
           <Route path='typing' element={<TypePage />} />
+          <Route path='login' element={<LoginPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
