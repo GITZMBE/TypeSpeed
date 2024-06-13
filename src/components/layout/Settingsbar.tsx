@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import DIFFECULTY from "../models/DIFFECULTY";
-import HorizontalDivider from "./HorizontalDivider";
 import { TbSquareLetterA } from "react-icons/tb";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useRecoilState } from "recoil";
-import { SettingsState } from "../recoil/states";
+import { HorizontalDivider } from "../ui";
+import { SettingsState } from "../../recoil/states";
+import DIFFECULTY from "../../models/DIFFECULTY";
 
 interface IProps {
   testHasStarted: boolean;
 };
 
-const Settingsbar = ({ testHasStarted }: IProps) => {
+export const Settingsbar = ({ testHasStarted }: IProps) => {
   const [settings, setSettings] = useRecoilState(SettingsState);
   const [settingsType, setSettingsType] = useState<string>("words");
 

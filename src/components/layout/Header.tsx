@@ -4,8 +4,9 @@ import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+export const Header = () => {
   const navigate = useNavigate();
+
   return (
     <header className='flex justify-between items-center w-full max-w-7xl py-4'>
       <div className='flex items-center gap-4'>
@@ -24,7 +25,7 @@ const Header = () => {
       </div>
       <div className='flex gap-4 items-center'>
         <FaBell className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
-        <FaUser className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
+        <FaUser onClick={() => navigate('/login')} className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
       </div>
     </header>
   );

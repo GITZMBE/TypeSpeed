@@ -1,5 +1,5 @@
 import React from "react";
-import LetterCoordinate from "../models/LetterCoordinate";
+import LetterCoordinate from "../../models/LetterCoordinate";
 
 interface IProps {
   correctLetters: LetterCoordinate[];
@@ -13,7 +13,7 @@ interface IProps {
   letter: string;
 }
 
-const Letter = ({
+export const Letter = ({
   correctLetters,
   wrongLetters,
   word,

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import LetterCoordinate from "../models/LetterCoordinate";
 import { useNavigate } from "react-router-dom";
-import Letter from "../components/Letter";
+import { Letter } from "../components/ui";
 import TypingResult from "../models/TypingResult";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
-import Settingsbar from "../components/Settingsbar";
+import { Settingsbar } from "../components/layout";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {

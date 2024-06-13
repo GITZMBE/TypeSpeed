@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import TypingResult from "../models/TypingResult";
+import TypingResult from "../../models/TypingResult";
 
 interface IProps extends ComponentPropsWithoutRef<"div"> {
   data: TypingResult;

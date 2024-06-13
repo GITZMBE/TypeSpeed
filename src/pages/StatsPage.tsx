@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import StatsChart from "../components/StatsChart";
 import { useRecoilState } from "recoil";
 import { TypingResultState } from "../recoil/states";
-import Tippy from '@tippyjs/react';
-import ToolTip from "../components/ToolTip";
+import ToolTip from "../components/ui/ToolTip";
+import StatsChart from "../components/layout/StatsChart";
 
 const StatsPage = () => {
   const navigate = useNavigate();

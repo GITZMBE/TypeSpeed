@@ -9,7 +9,7 @@ interface IProps {
   content: ReactElement;
 }
 
-const ToolTip = ({ children, content }: IProps) => {
+export const ToolTip = ({ children, content }: IProps) => {
   return (
     <Tippy theme='translucent' content={content} animation="shift-away">
       { children }

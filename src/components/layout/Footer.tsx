@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoIosMail } from "react-icons/io";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className='flex gap-8 w-full py-4'>
       <div className='group flex items-center gap-2'>
