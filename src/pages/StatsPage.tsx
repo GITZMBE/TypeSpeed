@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { TypingResultState } from "../recoil/states";
 import ToolTip from "../components/ui/ToolTip";
 import StatsChart from "../components/layout/StatsChart";
-import { calcAccuracy, calcNetWpm } from "src/utils";
+import { calcAccuracy, calcCpm, calcNetWpm } from "src/utils";
 
 const StatsPage = () => {
   const navigate = useNavigate();
@@ -32,6 +32,18 @@ const StatsPage = () => {
                 }>
                   <span className='w-fit font-bold text-6xl text-yellowAcent'>
                     {calcNetWpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries).toFixed(0)}
+                  </span>
+                </ToolTip>
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="text-4xl text-secondary font-medium">cpm</span>
+                <ToolTip content={
+                  <span className="text-xl text-light">
+                    {calcCpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries)} cpm
+                  </span>
+                }>
+                  <span className='w-fit font-bold text-6xl text-yellowAcent'>
+                    {calcCpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries).toFixed(0)}
                   </span>
                 </ToolTip>
               </div>

@@ -7,7 +7,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { Settingsbar } from "../components/layout";
-import { calcNetWpm } from "src/utils/speedHandler";
+import { calcCpm, calcNetWpm } from "src/utils/speedHandler";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {
@@ -21,8 +21,9 @@ const TypingPage = () => {
   const [displayWords, setDisplayWords] = useState<string[]>([]);
 
   const [currentWpm, setCurrentWpm] = useState<number | null>(null);
-  const [history, setHistory] = useState<number[]>([]);
-  const historyRef = useRef<number[]>(history);
+  const [currentCpm, setCurrentCpm] = useState<number | null>(null);
+  const [wpmHistory, setWpmHistory] = useState<number[]>([]);
+  const wpmHistoryRef = useRef<number[]>(wpmHistory);
 
   const [wordIndex, setWordIndex] = useState<number>(0);
   const [letterIndex, setLetterIndex] = useState<number>(0);
@@ -57,8 +58,8 @@ const TypingPage = () => {
   }, [wrongLetters]);
 
   useEffect(() => {
-    historyRef.current = history;
-  }, [history]);
+    wpmHistoryRef.current = wpmHistory;
+  }, [wpmHistory]);
 
   useEffect(() => {
     if (words.length > 0 && displayWords.length > 0) return;
@@ -69,28 +70,16 @@ const TypingPage = () => {
       });
   }, [words, displayWords]);
 
-  const calculateWrongWords = (wrongLetters: LetterCoordinate[]) => {
-    let wrongWords: LetterCoordinate[] = [];
-    for (const letterCoord of wrongLetters) {
-      const isOtherLetterInWord = wrongWords.some(
-        (c) => c.wordCoord === letterCoord.wordCoord
-      );
-      if (isOtherLetterInWord) {
-        continue;
-      }
-      wrongWords = [...wrongWords, letterCoord];
-    }
-    return wrongWords.length;
-  };
-
   const startTimer = () => {
     if (!settings.selectedTime || !time) return;
 
     let t = 1;
     intervalRef.current = setInterval(() => {
-      const currentWpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, t / 60, wrongLettersRef.current.length);
-      setCurrentWpm(currentWpm);
-      setHistory((prevHistory) => [...prevHistory, currentWpm]);
+      const wpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, t / 60, wrongLettersRef.current.length);
+      setCurrentWpm(wpm);
+      setWpmHistory((prevHistory) => [...prevHistory, wpm]);
+      const cpm = calcCpm(correctLettersRef.current.length + wrongLettersRef.current.length, t / 60, wrongLettersRef.current.length);
+      setCurrentCpm(cpm);
       if (settings.selectedTime && t === time) {
         finishTest();
         clearInterval(intervalRef.current!);
@@ -118,9 +107,11 @@ const TypingPage = () => {
         return;
       }
       const currentTime = new Date().getTime();
-      const currentWpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, (currentTime - startTime) / 1000 / 60, wrongLettersRef.current.length);
-      setCurrentWpm(currentWpm);
-      setHistory((prevHistory) => [...prevHistory, currentWpm]);
+      const wpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, (currentTime - startTime) / 1000 / 60, wrongLettersRef.current.length);
+      setCurrentWpm(wpm);
+      setWpmHistory((prevHistory) => [...prevHistory, wpm]);
+      const cpm = calcCpm(correctLettersRef.current.length + wrongLettersRef.current.length, (currentTime - startTime) / 1000 / 60, wrongLettersRef.current.length);
+      setCurrentCpm(cpm);
     }, 1000);
   };
   
@@ -238,14 +229,15 @@ const TypingPage = () => {
   const setToDefault = () => {
     setTestHasStarted(false);
     setSettings({
-      difficulty: DIFFECULTY.NORMAL,
+      difficulty: DIFFECULTY.RANDOM,
       wordsAmount: 10,
       selectedTime: null,
     });
     setTime(null);
     setWords([]);
     setCurrentWpm(null);
-    setHistory([]);
+    setCurrentCpm(null);
+    setWpmHistory([]);
     setWordIndex(0);
     setLetterIndex(0);
     setSearchbarFocus(false);
@@ -257,7 +249,6 @@ const TypingPage = () => {
 
   const finishTest = () => {
     if (!settings.selectedTime && !endTime) return;
-    console.log(correctLettersRef.current.length, wrongLettersRef.current.length);
 
     // words
     if (startTime && endTime) {
@@ -267,7 +258,7 @@ const TypingPage = () => {
           correctLettersRef.current.length,
           wrongLettersRef.current.length,
           duration,
-          history
+          wpmHistory
         )
       );
     // time
@@ -277,7 +268,7 @@ const TypingPage = () => {
           correctLettersRef.current.length,
           wrongLettersRef.current.length,
           settings.selectedTime / 60,
-          historyRef.current
+          wpmHistoryRef.current
         )
       );
     }
@@ -324,8 +315,10 @@ const TypingPage = () => {
             : settings.difficulty === DIFFECULTY.NORMAL
             ? 6
             : settings.difficulty === DIFFECULTY.HARD
-            ? undefined
-            : undefined
+            ? 8
+            : settings.difficulty === DIFFECULTY.RANDOM 
+            ? Math.floor(1 + Math.random() * 8) :
+            Math.floor(1 + Math.random() * 8)
         );
         wordsArray.push(random);
       }
@@ -349,7 +342,9 @@ const TypingPage = () => {
             {(testHasStarted && currentWpm) && (
               <p>{currentWpm} wpm</p>
             )}
-            {/* <p>{cpm ? cpm.toFixed(2) : undefined} cpm</p> */}
+            {(testHasStarted && currentCpm) && (
+              <p>{currentCpm} cpm</p>
+            )}
           </div>
         </div>
         <Settingsbar testHasStarted={testHasStarted} />
