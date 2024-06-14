@@ -168,6 +168,7 @@ const TypingPage = () => {
         }
       } else {
         if (pressedKey === " ") {
+          setCorrectLetters((prev) => [...prev, new LetterCoordinate(wordIndex, activeWord.length)])
           setWordIndex(wordIndex + 1);
           setLetterIndex(0);
         }
@@ -208,6 +209,7 @@ const TypingPage = () => {
             setWrongLetters(filteredArray);
           }
         } else if (letterIndex === 0 && wordIndex > 0) {
+          setCorrectLetters((prev) => prev.filter(e => e.letterCoord !== words[wordIndexRef.current - 1].length && e.wordCoord !== wordIndex - 1));
           setLetterIndex(words[wordIndex - 1].length);
           setWordIndex(wordIndex - 1);
         }
@@ -252,7 +254,7 @@ const TypingPage = () => {
 
     // words
     if (startTime && endTime) {
-      const duration = (endTime - startTime) / 1000 / 60;
+      const duration = Number(((endTime - startTime) / 1000 / 60).toFixed(3));
       setResult(
         new TypingResult(
           correctLettersRef.current.length,
