@@ -21,7 +21,7 @@ export const Settingsbar = ({ testHasStarted }: IProps) => {
       }`}
     >
       <div className='flex justify-center items-center'>
-        {[DIFFECULTY.EASY, DIFFECULTY.NORMAL, DIFFECULTY.HARD].map((d) => (
+        {[DIFFECULTY.EASY, DIFFECULTY.NORMAL, DIFFECULTY.HARD, DIFFECULTY.RANDOM].map((d) => (
           <button
             key={d}
             className={`text-xl ${
