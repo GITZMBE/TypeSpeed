@@ -66,7 +66,7 @@ const StatsPage = () => {
           </div>
           <div className='flex items-center gap-4 text-secondary'>
             <span>raw: {result.correctEntries + result.wrongEntries}</span>
-            <span>time: {result.time * 60} s</span>
+            <span>time: {(result.time * 60).toFixed(3)} s</span>
             <span
               className={
                 result.wrongEntries > 1

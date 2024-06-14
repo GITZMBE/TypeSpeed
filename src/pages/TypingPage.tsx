@@ -269,7 +269,7 @@ const TypingPage = () => {
         new TypingResult(
           correctLettersRef.current.length,
           wrongLettersRef.current.length,
-          settings.selectedTime / 60,
+          Number((settings.selectedTime / 60).toFixed(3)),
           wpmHistoryRef.current
         )
       );
@@ -342,10 +342,10 @@ const TypingPage = () => {
           <h2>Current Speed</h2>
           <div className='flex gap-8 items-center'>
             {(testHasStarted && currentWpm) && (
-              <p>{currentWpm} wpm</p>
+              <p>{currentWpm.toFixed(0)} wpm</p>
             )}
             {(testHasStarted && currentCpm) && (
-              <p>{currentCpm} cpm</p>
+              <p>{currentCpm.toFixed(0)} cpm</p>
             )}
           </div>
         </div>
