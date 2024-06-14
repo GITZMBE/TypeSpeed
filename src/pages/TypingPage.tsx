@@ -8,6 +8,7 @@ import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { Settingsbar } from "../components/layout";
 import { calcCpm, calcNetWpm } from "src/utils/speedHandler";
+import CurrentSpeedbar from "src/components/layout/CurrentSpeedbar";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {
@@ -338,17 +339,9 @@ const TypingPage = () => {
       className='w-full max-w-7xl h-full flex flex-col gap-8 justify-center items-center'
     >
       <div className='w-full flex flex-col gap-4'>
-        <div className='w-full flex flex-col justify-center items-center text-xl text-secondary'>
-          <h2>Current Speed</h2>
-          <div className='flex gap-8 items-center'>
-            {(testHasStarted && currentWpm) && (
-              <p>{currentWpm.toFixed(0)} wpm</p>
-            )}
-            {(testHasStarted && currentCpm) && (
-              <p>{currentCpm.toFixed(0)} cpm</p>
-            )}
-          </div>
-        </div>
+        {testHasStarted && (
+          <CurrentSpeedbar currentWpm={currentWpm} currentCpm={currentCpm} testHasStarted={testHasStarted} />
+        )}
         <Settingsbar testHasStarted={testHasStarted} />
       </div>
       {(testHasStarted && time) && <div className='w-full text-3xl text-yellowAcent'>{time}</div>}
