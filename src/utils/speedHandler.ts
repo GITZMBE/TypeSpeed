@@ -3,10 +3,10 @@
  * 
  * @param entries The total entries (correct + wrong)
  * @param time The time in minutes
- * @returns gross wpm in type number
+ * @returns gross wpm in type number with one thousands accuracy
  */
 export const calcGrossWpm = (entries: number, time: number) => {
-  return entries / 5 / time;
+  return Number((entries / 5 / time).toFixed(3));
 };
 
 /**
@@ -14,11 +14,11 @@ export const calcGrossWpm = (entries: number, time: number) => {
  * @param entries The total entries (correct + wrong)
  * @param time The time in minutes
  * @param errors Uncorrected entries
- * @returns wpm in type number
+ * @returns wpm in type number with one thousands accuracy
  */
 export const calcNetWpm = (entries: number, time: number, errors: number) => {
   const gross = calcGrossWpm(entries, time);
-  return gross - (errors / time);
+  return Number((gross - (errors / time)).toFixed(3));
 };
 
 /**
@@ -26,10 +26,10 @@ export const calcNetWpm = (entries: number, time: number, errors: number) => {
  * @param entries The total entries (correct + wrong)
  * @param time The time in minutes
  * @param errors Uncorrected entries
- * @returns accuracy in percentage
+ * @returns accuracy in percentage with one thousands accuracy
  */
 export const calcAccuracy = (entries: number, time: number, errors: number) => {
   const gross = calcGrossWpm(entries, time);
   const net = calcNetWpm(entries, time, errors);
-  return 100 * net / gross;
+  return Number((100 * net / gross).toFixed(3));
 };

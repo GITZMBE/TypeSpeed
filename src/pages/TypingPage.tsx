@@ -7,6 +7,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { Settingsbar } from "../components/layout";
+import { calcNetWpm } from "src/utils/speedHandler";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {
@@ -35,12 +36,21 @@ const TypingPage = () => {
 
   const wordIndexRef = useRef(wordIndex);
   const letterIndexRef = useRef(letterIndex);
+  const correctLettersRef = useRef(correctLetters);
   const wrongLettersRef = useRef(wrongLetters);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     wordIndexRef.current = wordIndex;
   }, [wordIndex]);
+
+  useEffect(() => {
+    letterIndexRef.current = letterIndex;
+  }, [letterIndex]);
+
+  useEffect(() => {
+    correctLettersRef.current = correctLetters;
+  }, [correctLetters]);
 
   useEffect(() => {
     wrongLettersRef.current = wrongLetters;
@@ -73,18 +83,12 @@ const TypingPage = () => {
     return wrongWords.length;
   };
 
-  const calcWpm = (elapsedTimeInMs: number) => {
-    const fullWords = wordIndexRef.current - calculateWrongWords(wrongLettersRef.current);
-    const notCompletedWords = letterIndexRef.current / displayWords[wordIndexRef.current].length;
-    return Math.round(1000 * 60 * (fullWords + notCompletedWords) / elapsedTimeInMs);
-  };
-
   const startTimer = () => {
     if (!settings.selectedTime || !time) return;
 
     let t = 1;
     intervalRef.current = setInterval(() => {
-      const currentWpm = calcWpm(t * 1000);
+      const currentWpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, t / 60, wrongLettersRef.current.length);
       setCurrentWpm(currentWpm);
       setHistory((prevHistory) => [...prevHistory, currentWpm]);
       if (settings.selectedTime && t === time) {
@@ -114,7 +118,7 @@ const TypingPage = () => {
         return;
       }
       const currentTime = new Date().getTime();
-      const currentWpm = calcWpm(currentTime - startTime);
+      const currentWpm = calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, (currentTime - startTime) / 1000 / 60, wrongLettersRef.current.length);
       setCurrentWpm(currentWpm);
       setHistory((prevHistory) => [...prevHistory, currentWpm]);
     }, 1000);
@@ -253,15 +257,16 @@ const TypingPage = () => {
 
   const finishTest = () => {
     if (!settings.selectedTime && !endTime) return;
+    console.log(correctLettersRef.current.length, wrongLettersRef.current.length);
 
     // words
     if (startTime && endTime) {
-      const duration = (endTime - startTime) / 1000;
+      const duration = (endTime - startTime) / 1000 / 60;
       setResult(
         new TypingResult(
+          correctLettersRef.current.length,
+          wrongLettersRef.current.length,
           duration,
-          displayWords.length,
-          calculateWrongWords(wrongLetters),
           history
         )
       );
@@ -269,9 +274,9 @@ const TypingPage = () => {
     } else if (!startTime && settings.selectedTime && !endTime) {
       setResult(
         new TypingResult(
-          settings.selectedTime,
-          wordIndexRef.current,
-          calculateWrongWords(wrongLettersRef.current),
+          correctLettersRef.current.length,
+          wrongLettersRef.current.length,
+          settings.selectedTime / 60,
           historyRef.current
         )
       );

@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { TypingResultState } from "../recoil/states";
 import ToolTip from "../components/ui/ToolTip";
 import StatsChart from "../components/layout/StatsChart";
+import { calcAccuracy, calcNetWpm } from "src/utils";
 
 const StatsPage = () => {
   const navigate = useNavigate();
@@ -26,24 +27,23 @@ const StatsPage = () => {
                 <span className="text-4xl text-secondary font-medium">wpm</span>
                 <ToolTip content={
                   <span className="text-xl text-light">
-                    {((60 * (result.words - result.wrong_words)) / result.time).toFixed(3)} wpm
+                    {calcNetWpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries)} wpm
                   </span>
                 }>
                   <span className='w-fit font-bold text-6xl text-yellowAcent'>
-                    {((60 * (result.words - result.wrong_words)) / result.time).toFixed(0)}
+                    {calcNetWpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries).toFixed(0)}
                   </span>
                 </ToolTip>
-                
               </div>
               <div className="flex flex-col gap-2">
                 <span className="text-4xl text-secondary font-medium">acc</span>
                 <ToolTip content={
                   <span className='w-fit text-xl text-light'>
-                    {((100 * (result.words - result.wrong_words)) / result.words).toFixed(3)} %
+                    {calcAccuracy(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries)} %
                   </span>
                 }>
                   <span className='font-bold text-6xl text-yellowAcent'>
-                    {((100 * (result.words - result.wrong_words)) / result.words).toFixed(0)}%
+                    {calcAccuracy(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries).toFixed(0)}%
                   </span>
                 </ToolTip>                
               </div>
@@ -53,18 +53,18 @@ const StatsPage = () => {
             </div>
           </div>
           <div className='flex items-center gap-4 text-secondary'>
-            <span>words: {result.words}</span>
-            <span>time: {result.time.toFixed(3)} s</span>
+            <span>raw: {result.correctEntries + result.wrongEntries}</span>
+            <span>time: {result.time * 60} s</span>
             <span
               className={
-                result.wrong_words > 1
+                result.wrongEntries > 1
                   ? "text-red-500"
-                  : result.wrong_words > 0
+                  : result.wrongEntries > 0
                   ? "text-yellow-500"
                   : "text-green-500"
               }
             >
-              wrong words: {result.wrong_words}
+              inaccuracies: {result.wrongEntries}
             </span>
           </div>
           <Link

@@ -1,13 +1,13 @@
 class TypingResult {
+  correctEntries: number;
+  wrongEntries: number;
   time!: number;
-  words!: number;
-  wrong_words!: number;
   history: number[] = [];
 
-  constructor(time: number, words: number, wrong_words: number, history: number[]) {
+  constructor(correctEntries: number, wrongEntries: number, time: number, history: number[]) {
+    this.correctEntries = correctEntries;
+    this.wrongEntries = wrongEntries;
     this.time = time;
-    this.words = words;
-    this.wrong_words = wrong_words;
     this.history = history;
   }
 };
