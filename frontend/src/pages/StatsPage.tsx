@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { TypingResultState } from "../recoil/states";
 import ToolTip from "../components/ui/ToolTip";
 import StatsChart from "../components/layout/StatsChart";
-import { calcAccuracy, calcCpm, calcNetWpm } from "src/utils";
+import { calcAccuracy, calcCpm, calcNetWpm } from "../utils";
 
 const StatsPage = () => {
   const navigate = useNavigate();

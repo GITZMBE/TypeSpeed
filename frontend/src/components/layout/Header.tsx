@@ -3,14 +3,14 @@ import { MdTypeSpecimen } from "react-icons/md";
 import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser, logout } from "src/auth/authHandler";
 import { User } from "@prisma/client";
+import { getCurrentUser, logout } from "src/api/api";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    getCurrentUser().then(setUser);
+    // getCurrentUser().then(setUser);
   }, []);
 
   return (

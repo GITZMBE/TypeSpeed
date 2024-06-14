@@ -6,9 +6,8 @@ import TypingResult from "../models/TypingResult";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
-import { Settingsbar } from "../components/layout";
-import { calcCpm, calcNetWpm } from "src/utils/speedHandler";
-import CurrentSpeedbar from "src/components/layout/CurrentSpeedbar";
+import { CurrentSpeedbar, Settingsbar } from "../components/layout";
+import { calcCpm, calcNetWpm } from "../utils";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {
