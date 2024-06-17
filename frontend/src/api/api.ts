@@ -1,3 +1,6 @@
+import { Result, User } from "@prisma/client";
+import TypingResultDto from "src/models/TypingResultDto";
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const login = async (email: string, password: string) => {
@@ -24,7 +27,7 @@ export const signup = async (username: string, email: string, password: string) 
   return response.json();
 };
 
-export const getCurrentUser = async () => {
+export const getCurrentUser= async (): Promise<User | null>  => {
   try {
     const response = await fetch(`${API_URL}/current-user`, {
       method: 'GET',
@@ -54,4 +57,33 @@ export const logout = async () => {
     credentials: 'include'
   });
   return response.json();
+};
+
+export const saveResult = async (result: TypingResultDto): Promise<Result | { message: string }> => {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser?.id) {
+      return { message: 'You need to be authenticated to save the result' };
+    };
+
+    const response = await fetch(`${API_URL}/save-result`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ userId: currentUser.id, ...result }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add result');
+    }
+
+    const resultData = await response.json();
+    return resultData;
+  } catch (error) {
+    console.error('Error adding result:', error);
+    throw error;
+  }
 };

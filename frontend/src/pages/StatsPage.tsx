@@ -1,20 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { TypingResultState } from "../recoil/states";
 import ToolTip from "../components/ui/ToolTip";
 import StatsChart from "../components/layout/StatsChart";
 import { calcAccuracy, calcCpm, calcNetWpm } from "../utils";
+import { saveResult } from "src/api/api";
+import TypingResultDto from "src/models/TypingResultDto";
 
 const StatsPage = () => {
   const navigate = useNavigate();
   const [result, setResult] = useRecoilState(TypingResultState);
 
   useEffect(() => {
+    console.log(result)
     if (!result) {
       navigate("/");
+      return;
     }
-  }, []);
+
+    const dto = new TypingResultDto(
+      calcNetWpm(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries), 
+      calcAccuracy(result.correctEntries + result.wrongEntries, result.time, result.wrongEntries),
+      result.correctEntries,
+      result.time,
+      result.wrongEntries
+    );
+    console.log(dto)
+
+    saveResult(dto);
+  }, [result, navigate]);
 
   return (
     <div className='w-full h-full flex flex-col justify-center items-center gap-8'>

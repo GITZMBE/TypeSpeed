@@ -80,3 +80,32 @@ export const logout = (req: Request, res: Response): Response => {
   res.clearCookie(USER_KEY);
   return res.status(200).json({ message: 'Logged out' });
 };
+
+export const saveResult = async (req: Request, res: Response): Promise<Response> => {
+  const token = req.cookies[USER_KEY];
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const { userId, wpm, acc, entries, time, errors } = req.body;
+    
+    if (!userId || !wpm || !acc || !entries || !time || errors === undefined) {
+      return res.status(400).json({ message: 'Arguments are not valid' });
+    }
+
+    const result = await prisma.result.create({
+      data: {
+        userId,
+        wpm,
+        acc,
+        entries,
+        time,
+        errors,
+      },
+    });
+
+    return res.status(201).json(result);
+  } catch (error) {
+    console.error('Error creating result:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

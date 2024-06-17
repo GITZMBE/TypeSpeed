@@ -29,6 +29,7 @@ export const LoginForm = () => {
 
     toast.success('logged in successfully');
     navigate('/');
+    window.location.reload();
   };
 
   return (

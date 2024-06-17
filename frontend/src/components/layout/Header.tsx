@@ -14,9 +14,9 @@ export const Header = () => {
   }, []);
 
   const getUser = async () => {
-    const res: User | { message: string } = await getCurrentUser();
+    const res = await getCurrentUser();
 
-    if (!res || 'message' in res) return;
+    if (!res) return;
 
     setUser(res);
   };
@@ -46,7 +46,7 @@ export const Header = () => {
           <FaUser className='text-md sm:text-xl text-secondary group-hover:text-light' />
         </Link>
         {user && (
-          <button onClick={() => {logout(); setUser(null); window.location.reload()}} className="text-secondary hover:text-light cursor-pointer">Logout</button>
+          <button onClick={() => {logout(); setUser(null); navigate('/login')}} className="text-secondary hover:text-light cursor-pointer">Logout</button>
         )}
       </div>
     </header>
