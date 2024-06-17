@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TogglePassword } from "../ui";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { login } from "src/api/api";
+import { toast } from "react-toastify";
+import { User } from "@prisma/client";
 
 interface IForm {
   email: string;
@@ -10,15 +12,23 @@ interface IForm {
 }
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm<IForm>({
     defaultValues: { email: "", password: "" },
   });
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    login(data.email, data.password);
-    // window.location.reload();
-    reset();
+    const res: User | { message: string } = await login(data.email, data.password);
+
+    if ('message' in res) {
+      toast.error(res.message);
+      reset();
+      return;
+    };
+
+    toast.success('logged in successfully');
+    navigate('/');
   };
 
   return (

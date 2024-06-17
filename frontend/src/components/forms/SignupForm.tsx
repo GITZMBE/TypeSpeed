@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TogglePassword } from "../ui";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signup } from "src/api/api";
+import { User } from "@prisma/client";
+import { toast } from "react-toastify";
 
 interface IForm {
   username: string;
@@ -11,15 +13,24 @@ interface IForm {
 }
 
 export const SignupForm = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm<IForm>({
     defaultValues: { username: "", email: "", password: "" },
   });
   const [show, setShow] = useState(false);
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
-    signup(data.username, data.email, data.password);
-    // window.location.reload();
-    reset();
+    const res: User | { message: string } = await signup(data.username, data.email, data.password);
+
+    if ('message' in res) {
+      toast.error(res.message);
+      reset();
+      return;
+    }
+    
+    toast.success('Account created successfully');
+    navigate('/');
+    window.location.reload();
   };
 
   return (
@@ -32,19 +43,22 @@ export const SignupForm = () => {
         <h3 className='text-light'>Username</h3>
         <input
           type='text'
+          required
           {...register("username")}
           className='px-2 rounded-full py-1'
         />
         <h3 className='text-light'>Email</h3>
         <input
           type='text'
+          required
           {...register("email")}
-          className='px-2 rounded-full'
+          className='px-2 rounded-full py-1'
         />
         <h3 className='text-light'>Password</h3>
         <div className='relative w-full'>
           <input
             type={show ? "text" : "password"}
+            required
             {...register("password")}
             className='w-full px-2 rounded-full py-1'
           />

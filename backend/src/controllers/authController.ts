@@ -14,11 +14,11 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     },
   });
 
-  if (!foundUser) return res.status(401).json({ message: 'Invalid email or password' });
+  if (!foundUser) return res.status(401).json({ message: 'There are not account connected to that email' });
 
   const isCorrectPassword = await bcrypt.compare(password, foundUser.password);
 
-  if (!isCorrectPassword) return res.status(401).json({ message: 'Invalid email or password' });
+  if (!isCorrectPassword) return res.status(401).json({ message: 'Incorrect password' });
 
   const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
   res.cookie(USER_KEY, token, { httpOnly: true });

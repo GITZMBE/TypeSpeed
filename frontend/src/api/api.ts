@@ -19,41 +19,39 @@ export const signup = async (username: string, email: string, password: string) 
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, email, password }),
+    credentials: 'include'
   });
   return response.json();
 };
 
 export const getCurrentUser = async () => {
   try {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      throw new Error('No token found');
-    }
-
     const response = await fetch(`${API_URL}/current-user`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      method: 'GET',
+      credentials: 'include'
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch user data');
+      if (response.status === 401) {
+        console.warn('User not authenticated.');
+      } else {
+        console.error('Failed to fetch user data:', response.statusText);
+      }
+      return null;
     }
 
     const userData = await response.json();
     return userData;
   } catch (error) {
     console.error('Error fetching current user:', error);
-    throw error;
+    return null;
   }
 };
 
 export const logout = async () => {
   const response = await fetch(`${API_URL}/logout`, {
-    method: 'POST'
+    method: 'POST',
+    credentials: 'include'
   });
   return response.json();
 };
