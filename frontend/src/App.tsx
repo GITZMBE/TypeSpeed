@@ -8,12 +8,14 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className='App w-full h-screen bg-primary flex flex-col items-center px-4 sm:px-12'>
       <BrowserRouter>
         <Header />
+        <ToastContainer position='top-center' theme='dark' autoClose={3000} />
         <Routes>
           <Route index element={<HomePage />} />
           <Route path='' element={<HomePage />} />
