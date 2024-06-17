@@ -17,7 +17,7 @@ export const LoginForm = () => {
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     login(data.email, data.password);
-    window.location.reload();
+    // window.location.reload();
     reset();
   };
 
@@ -39,6 +39,7 @@ export const LoginForm = () => {
         <div className='relative w-full'>
           <input
             type={show ? "text" : "password"}
+            required
             {...register("password")}
             className='w-full px-2 rounded-full py-1'
           />

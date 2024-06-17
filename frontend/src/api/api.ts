@@ -1,4 +1,4 @@
-const API_URL = process.env.DATABASE_BASE_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const login = async (email: string, password: string) => {
   const response = await fetch(`${API_URL}/login`, {
@@ -7,6 +7,7 @@ export const login = async (email: string, password: string) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'include'
   });
   return response.json();
 };

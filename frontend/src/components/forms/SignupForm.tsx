@@ -18,7 +18,7 @@ export const SignupForm = () => {
 
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     signup(data.username, data.email, data.password);
-    window.location.reload();
+    // window.location.reload();
     reset();
   };
 
