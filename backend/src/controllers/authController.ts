@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 const USER_KEY = 'user';
 
-export const login = async (req: Request, res: Response): Promise<Response> => {
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const foundUser = await prisma.user.findUnique({
@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
   return res.json(foundUser);
 };
 
-export const signup = async (req: Request, res: Response): Promise<Response> => {
+export const signup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
   const foundUser = await prisma.user.findUnique({
@@ -53,7 +53,7 @@ export const signup = async (req: Request, res: Response): Promise<Response> => 
   return res.status(201).json(newUser);
 };
 
-export const getCurrentUser = async (req: Request, res: Response): Promise<Response> => {
+export const getCurrentUser = async (req: Request, res: Response) => {
   const token = req.cookies[USER_KEY];
   if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
@@ -81,7 +81,7 @@ export const logout = (req: Request, res: Response): Response => {
   return res.status(200).json({ message: 'Logged out' });
 };
 
-export const saveResult = async (req: Request, res: Response): Promise<Response> => {
+export const saveResult = async (req: Request, res: Response) => {
   const token = req.cookies[USER_KEY];
   if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
@@ -105,6 +105,34 @@ export const saveResult = async (req: Request, res: Response): Promise<Response>
     });
 
     return res.status(201).json(result);
+  } catch (error) {
+    console.error('Error creating result:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getUserResults = async (req: Request, res: Response) => {
+  const token = req.cookies[USER_KEY];
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+      include: {
+        results: {
+          orderBy: {
+            createdAt: 'desc'
+          }
+        },
+      },
+    });
+
+    if (!currentUser) return res.status(404).json({ message: 'Not authenticated' });
+
+    return res.status(201).json(currentUser.results);
   } catch (error) {
     console.error('Error creating result:', error);
     return res.status(500).json({ message: 'Internal server error' });

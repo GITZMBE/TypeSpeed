@@ -87,3 +87,31 @@ export const saveResult = async (result: TypingResultDto): Promise<Result | { me
     throw error;
   }
 };
+
+export const getUserResults = async (): Promise<Result[] | { message: string }> => {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser?.id) {
+      return { message: 'You need to be authenticated to save the result' };
+    };
+
+    const response = await fetch(`${API_URL}/user-results`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add result');
+    }
+
+    const resultData = await response.json();
+    return resultData;
+  } catch (error) {
+    console.error('Error adding result:', error);
+    throw error;
+  }
+};
