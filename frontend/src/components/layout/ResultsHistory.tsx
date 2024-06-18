@@ -22,7 +22,7 @@ export const ResultsHistory = ({ results }: IProps) => {
              
           </div>
           {results.map((result, i) => (
-            <div className={`flex items-center p-4 text-light text-md font-semibold ${ i % 2 === 0 ? 'bg-secondary' : 'bg-primary' } rounded-lg overflow-hidden`}>
+            <div key={i} className={`flex items-center p-4 text-light text-md font-semibold ${ i % 2 === 0 ? 'bg-secondary' : 'bg-primary' } rounded-lg overflow-hidden`}>
               <span className='basis-full'>{ result.wpm }</span>
               <span className='basis-full'>{ result.entries }</span>
               <span className='basis-full'>{ result.acc } %</span>

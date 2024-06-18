@@ -22,7 +22,7 @@ export const Header = () => {
   };
 
   return (
-    <header className='flex justify-between items-center w-full max-w-7xl py-4'>
+    <header className='w-full max-w-7xl sticky top-0 flex justify-between items-center bg-primary py-4'>
       <div className='flex items-center gap-4'>
         <div className="flex items-center gap-2" onClick={() => {navigate('/')}}>
           <MdTypeSpecimen className='text-2xl sm:text-4xl text-yellowAcent' />

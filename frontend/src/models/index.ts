@@ -4,3 +4,5 @@ export * from './LetterCoordinate';
 export * from './TypingResult';
 export * from './TypingResultDto';
 export * from './TypingSettings';
+export * from './ModeResults';
+export * from './TopModeResult';

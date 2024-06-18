@@ -1,6 +1,6 @@
 import { Result } from '@prisma/client';
 import { getUserResults } from 'api/api';
-import { ResultsHistory, TopResults } from 'components/layout';
+import { ResultsHistory, TopModeResults, TopResults } from 'components/layout';
 import React, { useEffect, useState } from 'react';
 import { calcTopResults } from 'utils';
 
@@ -21,6 +21,7 @@ export const StatsPage = () => {
 
   return (
     <div className='w-full h-full min-h-screen flex flex-col justify-center items-center gap-8'>
+      <TopModeResults results={results} />
       <h2 className='w-full text-light text-3xl'>Top Results</h2>
       <TopResults results={calcTopResults(results)} />
       <h2 className='w-full text-light text-3xl'>History</h2>
