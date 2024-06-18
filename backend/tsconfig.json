@@ -1,24 +1,14 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@prisma/*": ["prisma/*"]
-    }
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   },
-  "include": ["src", "prisma"]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "baseUrl": "src",
+    "paths": {
+      "@shared/*": ["../../frontend/src/shared/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["src/**/*"]
 }

@@ -4,7 +4,7 @@ import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "@prisma/client";
-import { getCurrentUser, logout } from "src/api/api";
+import { getCurrentUser, logout } from "api/api";
 
 export const Header = () => {
   const navigate = useNavigate();

@@ -7,7 +7,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { CurrentSpeedbar, Settingsbar } from "../components/layout";
-import { calcCpm, calcNetWpm } from "../utils";
+import { calcCpm, calcNetWpm, calculateMode } from "../utils";
 var randomWord = require("random-word-by-length");
 
 const TypingPage = () => {
@@ -27,7 +27,7 @@ const TypingPage = () => {
 
   const [wordIndex, setWordIndex] = useState<number>(0);
   const [letterIndex, setLetterIndex] = useState<number>(0);
-  const [searchbarFocus, setSearchbarFocus] = useState<boolean>(false);
+  const [searchbarFocus, setSearchbarFocus] = useState<boolean>(true);
 
   const [correctLetters, setCorrectLetters] = useState<LetterCoordinate[]>([]);
   const [wrongLetters, setWrongLetters] = useState<LetterCoordinate[]>([]);
@@ -215,7 +215,7 @@ const TypingPage = () => {
         }
       }
     }
-  }, [searchbarFocus, wordIndex, letterIndex]);
+  }, [searchbarFocus, displayWords, wordIndex, letterIndex]);
 
   useEffect(() => {
     if (settings.wordsAmount) {
@@ -260,7 +260,8 @@ const TypingPage = () => {
           correctLettersRef.current.length,
           wrongLettersRef.current.length,
           duration,
-          wpmHistory
+          wpmHistory,
+          calculateMode(settings)
         )
       );
     // time
@@ -270,7 +271,8 @@ const TypingPage = () => {
           correctLettersRef.current.length,
           wrongLettersRef.current.length,
           Number((settings.selectedTime / 60).toFixed(3)),
-          wpmHistoryRef.current
+          wpmHistoryRef.current,
+          calculateMode(settings)
         )
       );
     }

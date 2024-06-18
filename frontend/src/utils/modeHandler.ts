@@ -1,7 +1,12 @@
-import TypingSettings from "src/models/TypingSettings";
+import { TypingSettings } from "../models";
 import { Mode } from '@prisma/client';
 
-export const calculateMode = (settings: TypingSettings): Mode | void => {
+/**
+ * 
+ * @param settings 
+ * @returns returns a mode enum delared in prisma and defaults to WORDS10
+ */
+export const calculateMode = (settings: TypingSettings) => {
   if (settings.selectedTime) {
     switch (settings.selectedTime) {
       case 15:
@@ -13,8 +18,7 @@ export const calculateMode = (settings: TypingSettings): Mode | void => {
       default:
         break;
     }
-  }
-  if (settings.wordsAmount) {
+  } else if (settings.wordsAmount) {
     switch (settings.wordsAmount) {
       case 10:
         return Mode.WORDS10;
@@ -26,4 +30,5 @@ export const calculateMode = (settings: TypingSettings): Mode | void => {
         break;
     }
   }
+  return Mode.WORDS10;
 };

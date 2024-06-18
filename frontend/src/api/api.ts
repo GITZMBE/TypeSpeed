@@ -1,5 +1,5 @@
 import { Result, User } from "@prisma/client";
-import TypingResultDto from "src/models/TypingResultDto";
+import TypingResultDto from "models/TypingResultDto";
 
 const API_URL = process.env.REACT_APP_API_URL;
 

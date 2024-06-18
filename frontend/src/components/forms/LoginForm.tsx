@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TogglePassword } from "../ui";
-import { Link, redirect, useNavigate } from "react-router-dom";
-import { login } from "src/api/api";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "api/api";
 import { toast } from "react-toastify";
 import { User } from "@prisma/client";
 

@@ -86,9 +86,9 @@ export const saveResult = async (req: Request, res: Response): Promise<Response>
   if (!token) return res.status(401).json({ message: 'Not authenticated' });
 
   try {
-    const { userId, wpm, acc, entries, time, errors } = req.body;
+    const { userId, wpm, acc, entries, time, errors, mode } = req.body;
     
-    if (!userId || !wpm || !acc || !entries || !time || errors === undefined) {
+    if (!userId || !wpm || !acc || !entries || !time || errors === undefined || !mode) {
       return res.status(400).json({ message: 'Arguments are not valid' });
     }
 
@@ -100,6 +100,7 @@ export const saveResult = async (req: Request, res: Response): Promise<Response>
         entries,
         time,
         errors,
+        mode
       },
     });
 
