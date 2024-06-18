@@ -1,12 +1,13 @@
 import { Result } from '@prisma/client';
-import React from 'react';
 import { format } from 'date-fns';
+import React from 'react';
+import { FaCrown } from 'react-icons/fa';
 
 interface IProps {
   results: Result[];
 };
 
-export const ResultsHistory = ({ results }: IProps) => {
+export const TopResults = ({ results }: IProps) => {
   return (
     <div className='w-full'>
       {results.length > 0 && (
@@ -22,8 +23,8 @@ export const ResultsHistory = ({ results }: IProps) => {
              
           </div>
           {results.map((result, i) => (
-            <div className={`flex items-center p-4 text-light text-md font-semibold ${ i % 2 === 0 ? 'bg-secondary' : 'bg-primary' } rounded-lg overflow-hidden`}>
-              <span className='basis-full'>{ result.wpm }</span>
+            <div className={`flex items-center p-4 ${ i === 0 ? 'text-yellowAcent' : 'text-light' } text-md font-semibold ${ i % 2 === 0 ? 'bg-secondary' : 'bg-primary' } rounded-lg overflow-hidden`}>
+              <span className='flex gap-2 items-center basis-full'>{ result.wpm } { i === 0 && <FaCrown />}</span>
               <span className='basis-full'>{ result.entries }</span>
               <span className='basis-full'>{ result.acc } %</span>
               <span className='basis-full'>{ result.time * 60 } s</span>
@@ -41,4 +42,4 @@ export const ResultsHistory = ({ results }: IProps) => {
   )
 }
 
-export default ResultsHistory;
+export default TopResults;

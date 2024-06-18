@@ -358,7 +358,7 @@ export const TypingPage = () => {
       onClick={(e: any) => {
         setSearchbarFocus(false);
       }}
-      className='w-full max-w-7xl h-full flex flex-col gap-8 justify-center items-center'
+      className='w-full max-w-7xl h-full flex flex-grow flex-col gap-8 justify-center items-center'
     >
       <div className='w-full flex flex-col gap-4'>
         {testHasStarted && (

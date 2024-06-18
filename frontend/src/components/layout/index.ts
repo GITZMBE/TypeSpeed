@@ -4,3 +4,4 @@ export * from './Settingsbar';
 export * from './StatsChart';
 export * from './CurrentSpeedbar';
 export * from './ResultsHistory';
+export * from './TopResults';

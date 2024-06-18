@@ -125,7 +125,8 @@ export const getUserResults = async (req: Request, res: Response) => {
         results: {
           orderBy: {
             createdAt: 'desc'
-          }
+          },
+          take: 10
         },
       },
     });

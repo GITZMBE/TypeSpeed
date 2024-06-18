@@ -10,7 +10,7 @@ import ResultPage from "pages/ResultPage";
 
 function App() {
   return (
-    <div className='App w-full h-screen bg-primary flex flex-col items-center px-4 sm:px-12'>
+    <div className='App scrollbar w-full h-full min-h-screen bg-primary flex flex-col items-center px-4 sm:px-12'>
       <BrowserRouter>
         <Header />
         <ToastContainer position='top-center' theme='dark' autoClose={3000} />
