@@ -7,10 +7,12 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { CurrentSpeedbar, Settingsbar } from "../components/layout";
-import { calcCpm, calcNetWpm, calculateMode } from "../utils";
+import { calcAccuracy, calcCpm, calcNetWpm, calculateMode } from "../utils";
+import TypingResultDto from "models/TypingResultDto";
+import { saveResult } from "api/api";
 var randomWord = require("random-word-by-length");
 
-const TypingPage = () => {
+export const TypingPage = () => {
   const navigate = useNavigate();
   const setResult = useSetRecoilState(TypingResultState);
   const [settings, setSettings] = useRecoilState(SettingsState);
@@ -249,8 +251,10 @@ const TypingPage = () => {
     setEndTime(null);
   };
 
-  const finishTest = () => {
+  const finishTest = async () => {
     if (!settings.selectedTime && !endTime) return;
+
+    let dto: TypingResultDto;
 
     // words
     if (startTime && endTime) {
@@ -264,6 +268,14 @@ const TypingPage = () => {
           calculateMode(settings)
         )
       );
+      dto = new TypingResultDto(
+        calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, duration, wrongLettersRef.current.length), 
+        calcAccuracy(correctLettersRef.current.length + wrongLettersRef.current.length, duration, wrongLettersRef.current.length),
+        correctLettersRef.current.length,
+        duration,
+        wrongLettersRef.current.length,
+        calculateMode(settings)
+      );
     // time
     } else if (!startTime && settings.selectedTime && !endTime) {
       setResult(
@@ -275,9 +287,18 @@ const TypingPage = () => {
           calculateMode(settings)
         )
       );
+      dto = new TypingResultDto(
+        calcNetWpm(correctLettersRef.current.length + wrongLettersRef.current.length, Number((settings.selectedTime / 60).toFixed(3)), wrongLettersRef.current.length), 
+        calcAccuracy(correctLettersRef.current.length + wrongLettersRef.current.length, Number((settings.selectedTime / 60).toFixed(3)), wrongLettersRef.current.length),
+        correctLettersRef.current.length,
+        Number((settings.selectedTime / 60).toFixed(3)),
+        wrongLettersRef.current.length,
+        calculateMode(settings)
+      );
     }
-    
-    navigate(`/stats`);
+
+    saveResult(dto);
+    navigate(`/result`);
     setToDefault();
   };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HomePage = () => {
+export const HomePage = () => {
   return (
     <div className='flex flex-col items-center w-full max-w-7xl h-full'>
       <div className='w-full h-full flex justify-center items-center py-4 xl:py-12'>

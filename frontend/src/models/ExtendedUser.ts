@@ -1,7 +1,7 @@
-import { User } from "@prisma/client";
+import { Result, User } from "@prisma/client";
 
 export interface ExtendedUser extends User {
-  results: string[];
+  results: Result[];
 }
 
 export default ExtendedUser;

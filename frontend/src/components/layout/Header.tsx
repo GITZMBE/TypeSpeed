@@ -39,7 +39,7 @@ export const Header = () => {
       </div>
       <div className='flex gap-4 items-center'>
         <FaBell className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
-        <Link to='/login' className="group flex justify-center items-center gap-2 group-hover:text-light cursor-pointer">
+        <Link to={ user ? '/stats' : '/login' } className="group flex justify-center items-center gap-2 group-hover:text-light cursor-pointer">
           {user && (
             <p className="text-secondary group-hover:text-light">{ user.username }</p>
           )}

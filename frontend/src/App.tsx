@@ -1,15 +1,12 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import StatsPage from "./pages/StatsPage";
-import TypePage from "./pages/TypingPage";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { HomePage, LoginPage, SignupPage, StatsPage, TypingPage } from "pages";
+import ResultPage from "pages/ResultPage";
 
 function App() {
   return (
@@ -20,10 +17,11 @@ function App() {
         <Routes>
           <Route index element={<HomePage />} />
           <Route path='' element={<HomePage />} />
-          <Route path='stats' element={<StatsPage />} />
-          <Route path='typing' element={<TypePage />} />
+          <Route path='result' element={<ResultPage />} />
+          <Route path='typing' element={<TypingPage />} />
           <Route path='login' element={<LoginPage />} />
           <Route path='signup' element={<SignupPage />} />
+          <Route path='stats' element={<StatsPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
