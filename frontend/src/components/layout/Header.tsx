@@ -5,6 +5,7 @@ import { IoMdSettings } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "@prisma/client";
 import { getCurrentUser, logout } from "api/api";
+import { calcLevel } from "utils";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -44,6 +45,11 @@ export const Header = () => {
             <p className="text-secondary group-hover:text-light">{ user.username }</p>
           )}
           <FaUser className='text-md sm:text-xl text-secondary group-hover:text-light' />
+          {user && (
+            <div className="h-fit px-[6px] rounded-sm bg-secondary group-hover:bg-light leading-[14px]">
+              <span className="text-primary text-[12px] leading-[14px]">{ calcLevel(user.xp).level }</span>
+            </div>
+          )}
         </Link>
         {user && (
           <button onClick={() => {logout(); setUser(null); navigate('/login')}} className="text-secondary hover:text-light cursor-pointer">

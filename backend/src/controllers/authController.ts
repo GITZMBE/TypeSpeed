@@ -83,13 +83,22 @@ export const updateUser = async (req: Request, res: Response) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      }
+    });
+
+    if (!currentUser) return res.status(404).json({ message: 'Not authenticated' });
+
     const { username, email, password, xp } = req.body;
 
     let updates: any = {};
-    if (username) updates.username = username;
-    if (email) updates.email = email;
-    if (password) updates.password = password;
-    if (xp) updates.xp = xp;
+    if (username && username.trim() !== '') updates.username = username;
+    if (email && email.trim() !== '') updates.email = email;
+    if (password && password.trim() !== '') updates.password = password;
+    if (xp) updates.xp = xp + currentUser.xp;
+    console.log(updates)
 
     const updatedUser = await prisma.user.update({
       where: {

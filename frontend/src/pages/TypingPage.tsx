@@ -7,9 +7,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
 import { Container, CurrentSpeedbar, Settingsbar } from "../components/layout";
-import { calcAccuracy, calcCpm, calcNetWpm, calculateMode } from "../utils";
+import { calcAccuracy, calcCpm, calcEaredXp, calcNetWpm, calculateMode } from "../utils";
 import TypingResultDto from "models/TypingResultDto";
-import { saveResult } from "api/api";
+import { saveResult, updateUser } from "api/api";
 import { FaRedoAlt } from "react-icons/fa";
 var randomWord = require("random-word-by-length");
 
@@ -301,7 +301,10 @@ export const TypingPage = () => {
       );
     }
 
-    saveResult(dto);
+    saveResult(dto).then(res => {
+      if ('message' in res) return res.message;
+      updateUser({ xp: calcEaredXp(res) });
+    })
     navigate(`/result`);
     setToDefault();
   };
@@ -327,7 +330,7 @@ export const TypingPage = () => {
 
   useEffect(() => {
     if (testHasStarted) return;
-    
+
     FetchRandomWords().then(setWords);
     if (settings.selectedTime) {
       setTime(settings.selectedTime);

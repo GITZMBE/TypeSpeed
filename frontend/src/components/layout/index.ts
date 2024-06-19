@@ -7,3 +7,4 @@ export * from './ResultsHistory';
 export * from './TopResults';
 export * from './TopModeResults';
 export * from './Container';
+export * from './UserExperience';
