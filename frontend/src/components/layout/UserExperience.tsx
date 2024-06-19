@@ -45,7 +45,6 @@ export const UserExperience = () => {
           </div>
         )}
       </div>
-      
     </div>
   )
 }

@@ -18,3 +18,21 @@ Ratio of correct characters to incorrect characters. Calculated after the test h
 
 ### Consistency
 Based on the variance of your raw WPM. Closer to 100% is better. Calculated using the coefficient of variation of raw WPM and mapped onto a scale from 0 to 100.
+
+## Experience
+
+### XP
+Experience points earned for completing a race. The amount of XP earned is based on the time you spend in the race.
+
+time * 2 * modifier * accuracyModifier
+
+#### Modifier
++0.5 for 100% accuracy
+
++0.25 for achieving no errors or typos
+
+#### Accuracy Modifier
+(accuracy - 50) / 50
+
+### Level
+XP needed to progress is being calculated by multiplying next level by 50.
