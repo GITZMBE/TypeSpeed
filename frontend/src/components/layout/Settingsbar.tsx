@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ComponentPropsWithoutRef, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TbSquareLetterA } from "react-icons/tb";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useRecoilState } from "recoil";
@@ -6,13 +6,22 @@ import { HorizontalDivider } from "../ui";
 import { SettingsState } from "../../recoil/states";
 import DIFFECULTY from "../../models/DIFFECULTY";
 
-interface IProps {
+interface IProps extends ComponentPropsWithoutRef<"div"> {
   testHasStarted: boolean;
+  setFocus: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Settingsbar = ({ testHasStarted }: IProps) => {
+export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
   const [settings, setSettings] = useRecoilState(SettingsState);
   const [settingsType, setSettingsType] = useState<string>("words");
+
+  useEffect(() => {
+    if (settings.selectedTime) {
+      setSettingsType("time");
+    } else if (settings.wordsAmount) {
+      setSettingsType("words");
+    }
+  }, [settings])
 
   return (
     <div
@@ -29,7 +38,7 @@ export const Settingsbar = ({ testHasStarted }: IProps) => {
                 ? "text-yellowAcent"
                 : "text-secondary hover:text-light"
             } p-2 text-nowrap`}
-            onClick={() => setSettings({ ...settings, difficulty: d })}
+            onClick={() => {setSettings({ ...settings, difficulty: d }); setFocus(true)}}
           >
             {DIFFECULTY[d]}
           </button>
@@ -51,6 +60,7 @@ export const Settingsbar = ({ testHasStarted }: IProps) => {
                   return prevSettings;
                 }
               });
+              setFocus(true)
             }}
             className={`flex items-center gap-2 text-xl ${
               settingsType === type
@@ -93,7 +103,9 @@ export const Settingsbar = ({ testHasStarted }: IProps) => {
                     setSettings((prevSettings) => ({
                       ...prevSettings,
                       wordsAmount: null,
-                    })))
+                    })),
+                    setFocus(true)
+                    )
               }
             >
               {leng === null ? "No limit" : leng}
@@ -123,7 +135,9 @@ export const Settingsbar = ({ testHasStarted }: IProps) => {
                     setSettings((prevSettings) => ({
                       ...prevSettings,
                       selectedTime: null,
-                    })))
+                    })),
+                    setFocus(true)
+                    )
               }
             >
               {leng === null ? "No limit" : leng}

@@ -84,7 +84,7 @@ const ResultPage = () => {
           <Link
             to='/typing'
             onClick={() => setResult(null)}
-            className='text-5xl text-secondary hover:text-light p-4 border-2 rounded-lg outline-none'
+            className='text-5xl text-secondary hover:text-light focus:text-light p-4 focus:border-2 rounded-lg outline-none'
           >
             Try again
           </Link>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import LetterCoordinate from "../models/LetterCoordinate";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Letter } from "../components/ui";
 import TypingResult from "../models/TypingResult";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -10,6 +10,7 @@ import { Container, CurrentSpeedbar, Settingsbar } from "../components/layout";
 import { calcAccuracy, calcCpm, calcNetWpm, calculateMode } from "../utils";
 import TypingResultDto from "models/TypingResultDto";
 import { saveResult } from "api/api";
+import { FaRedoAlt } from "react-icons/fa";
 var randomWord = require("random-word-by-length");
 
 export const TypingPage = () => {
@@ -249,6 +250,9 @@ export const TypingPage = () => {
     setWrongLetters([]);
     setStartTime(null);
     setEndTime(null);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
   };
 
   const finishTest = async () => {
@@ -363,7 +367,7 @@ export const TypingPage = () => {
         {testHasStarted && (
           <CurrentSpeedbar currentWpm={currentWpm} currentCpm={currentCpm} testHasStarted={testHasStarted} />
         )}
-        <Settingsbar testHasStarted={testHasStarted} />
+        <Settingsbar testHasStarted={testHasStarted} setFocus={setSearchbarFocus} />
       </div>
       {(testHasStarted && time) && <div className='w-full text-3xl text-yellowAcent'>{time}</div>}
       <div
@@ -373,12 +377,12 @@ export const TypingPage = () => {
             e.stopPropagation();
           }
         }}
-        className='w-full h-64 flex overflow-y-hidden'
+        className='w-full h-64 flex flex-col gap-4 overflow-y-hidden'
       >
         <div className='flex flex-wrap h-fit'>
-          {displayWords.map((word, i) => (
+          {displayWords.length > 0 && displayWords.map((word, i) => (
             <div key={i} className='word h-fit flex gap-[1px] m-2'>
-              {word.split("").map((letter, j) => (
+              {word && word.split("").map((letter, j) => (
                 <Letter
                   key={j}
                   correctLetters={correctLetters}
@@ -395,6 +399,16 @@ export const TypingPage = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="w-full flex justify-center">
+        <Link
+          to='/typing'
+          id="redo"
+          onClick={e => {setToDefault(); document.getElementById("redo").blur()}}
+          className='w-fit text-5xl text-secondary hover:text-light p-4 focus:border-2 rounded-lg outline-none'
+        >
+          <FaRedoAlt size={24} className="text-secondary" />
+        </Link>
       </div>
     </Container>
   );
