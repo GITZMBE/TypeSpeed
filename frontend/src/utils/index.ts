@@ -1,3 +1,4 @@
 export * from './speedHandler';
 export * from './modeHandler';
-export * from './ResultsHandler';
+export * from './resultsHandler';
+export * from './xpHandler';

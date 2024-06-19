@@ -44,6 +44,7 @@ export const signup = async (req: Request, res: Response) => {
       username,
       email,
       password: hashedPassword,
+      xp: 0
     },
   });
 
@@ -73,6 +74,34 @@ export const getCurrentUser = async (req: Request, res: Response) => {
     return res.json(currentUser);
   } catch (error) {
     return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const token = req.cookies[USER_KEY];
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+    const { username, email, password, xp } = req.body;
+
+    let updates: any = {};
+    if (username) updates.username = username;
+    if (email) updates.email = email;
+    if (password) updates.password = password;
+    if (xp) updates.xp = xp;
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: decoded.id
+      },
+      data: updates
+    });
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 

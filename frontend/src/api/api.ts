@@ -27,7 +27,7 @@ export const signup = async (username: string, email: string, password: string) 
   return response.json();
 };
 
-export const getCurrentUser= async (): Promise<User | null>  => {
+export const getCurrentUser = async (): Promise<User | null>  => {
   try {
     const response = await fetch(`${API_URL}/current-user`, {
       method: 'GET',
@@ -49,6 +49,24 @@ export const getCurrentUser= async (): Promise<User | null>  => {
     console.error('Error fetching current user:', error);
     return null;
   }
+};
+
+export const updateUser = async (updates: any): Promise<User | { message: string }> => {
+  const response = await fetch(`${API_URL}/user-update`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(updates),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user');
+  }
+
+  const updatedUser = await response.json();
+  return updatedUser;
 };
 
 export const logout = async () => {

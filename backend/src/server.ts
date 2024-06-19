@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { login, signup, getCurrentUser, logout, saveResult, getUserResults } from './controllers/authController';
+import { login, signup, getCurrentUser, logout, saveResult, getUserResults, updateUser } from './controllers/authController';
 
 dotenv.config();
 
@@ -20,6 +20,7 @@ app.get('/current-user', getCurrentUser);
 app.post('/logout', logout);
 app.post('/save-result', saveResult);
 app.get('/user-results', getUserResults);
+app.put('/user-update', updateUser);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
