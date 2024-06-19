@@ -95,11 +95,10 @@ const StatsChart = ({ data, className, ...props }: IProps) => {
   };
 
   return (
-    <div ref={chartRef} className={className}>
+    <div {...props} ref={chartRef} className={className}>
       {(chartDimensions.width && chartDimensions.height) && (
         <Line data={chartData} options={options} width={chartDimensions.width} height={chartDimensions.height} />
       )}
-      
     </div>
   );
 };

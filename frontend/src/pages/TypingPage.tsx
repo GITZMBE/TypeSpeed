@@ -6,7 +6,7 @@ import TypingResult from "../models/TypingResult";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { SettingsState, TypingResultState } from "../recoil/states";
 import DIFFECULTY from "../models/DIFFECULTY";
-import { CurrentSpeedbar, Settingsbar } from "../components/layout";
+import { Container, CurrentSpeedbar, Settingsbar } from "../components/layout";
 import { calcAccuracy, calcCpm, calcNetWpm, calculateMode } from "../utils";
 import TypingResultDto from "models/TypingResultDto";
 import { saveResult } from "api/api";
@@ -354,11 +354,10 @@ export const TypingPage = () => {
   };
 
   return (
-    <div
+    <Container
       onClick={(e: any) => {
         setSearchbarFocus(false);
       }}
-      className='w-full max-w-7xl h-full flex flex-grow flex-col gap-8 justify-center items-center'
     >
       <div className='w-full flex flex-col gap-4'>
         {testHasStarted && (
@@ -397,7 +396,7 @@ export const TypingPage = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

@@ -2,26 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-*::-webkit-scrollbar-thumb {
-  background-color: #646669;
-  border-radius: 10px;
-  border: 3px solid transparent;
-  background-clip: content-box;
+@layer base {
+  .App {
+    @apply min-h-screen flex flex-col;
+  }
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background-color: #323437;
+@layer utilities {
+  /* WebKit-based browsers */
+  *::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #646669;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-primary;
+  }
+
+  *::-webkit-scrollbar-corner {
+    @apply bg-primary;
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    @apply bg-light;
+  }
+
+  /* For more precise control in Firefox */
+  *::-moz-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  *::-moz-scrollbar-thumb {
+    background-color: #646669;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-moz-scrollbar-thumb:hover {
+    background-color: #323437;
+  }
+
+  *::-moz-scrollbar-track {
+    background: #000000;
+    border-radius: 10px;
+  }
+
+  *::-moz-scrollbar-corner {
+    background: #E2B714;
+  }
+
+  *::-moz-scrollbar-thumb:active {
+    background-color: #BF4652;
+  }
 }
 
-*::-webkit-scrollbar-track {
-  background: #C8C7BC;
-  border-radius: 10px;
-}
-
-*::-webkit-scrollbar-corner {
-  background: #E2B714;
-}
-
-*::-webkit-scrollbar-thumb:active {
-  background-color: #BF4652;
-}

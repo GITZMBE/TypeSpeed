@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdTypeSpecimen } from "react-icons/md";
-import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser } from "react-icons/fa";
+import { FaKeyboard, FaCrown, FaInfo, FaBell, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "@prisma/client";
@@ -22,7 +22,7 @@ export const Header = () => {
   };
 
   return (
-    <header className='w-full max-w-7xl sticky top-0 flex justify-between items-center bg-primary py-4'>
+    <header className='w-full sticky top-0 z-10 flex justify-between items-center bg-primary py-4 px-4 sm:px-12'>
       <div className='flex items-center gap-4'>
         <div className="flex items-center gap-2" onClick={() => {navigate('/')}}>
           <MdTypeSpecimen className='text-2xl sm:text-4xl text-yellowAcent' />
@@ -46,7 +46,9 @@ export const Header = () => {
           <FaUser className='text-md sm:text-xl text-secondary group-hover:text-light' />
         </Link>
         {user && (
-          <button onClick={() => {logout(); setUser(null); navigate('/login')}} className="text-secondary hover:text-light cursor-pointer">Logout</button>
+          <button onClick={() => {logout(); setUser(null); navigate('/login')}} className="text-secondary hover:text-light cursor-pointer">
+            <FaSignOutAlt />
+          </button>
         )}
       </div>
     </header>

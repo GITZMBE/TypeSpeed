@@ -9,6 +9,7 @@ module.exports = {
         yellowAcent: '#E2B714',
         redAcent: '#BF4652',
         light: '#C8C7BC',
+        dark: '#2C2E31'
       },
       fontFamily: {
         robotoMono: 'Roboto Mono',

@@ -38,38 +38,38 @@ export const TopModeResults = ({ results }: IProps) => {
     <div className='w-full flex flex-col sm:flex-row items-center gap-4'>
       {topModeResult && (
         <>
-          <div className='w-full flex flex-grow justify-between items-center gap-4 py-4 px-8 bg-secondary rounded-lg'>
+          <div className='w-full flex flex-grow justify-between items-center gap-4 py-4 px-8 bg-dark rounded-lg'>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>15 s</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.time15?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.time15?.acc ? topModeResult?.time15?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>15 s</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.time15?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.time15?.acc ? topModeResult?.time15?.acc + ' %' : '-' }</span>
             </div>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>30 s</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.time30?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.time30?.acc ? topModeResult?.time30?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>30 s</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.time30?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.time30?.acc ? topModeResult?.time30?.acc + ' %' : '-' }</span>
             </div>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>60 s</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.time60?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.time60?.acc ? topModeResult?.time60?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>60 s</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.time60?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.time60?.acc ? topModeResult?.time60?.acc + ' %' : '-' }</span>
             </div>
           </div>
-          <div className='w-full flex flex-grow justify-between items-center gap-4 py-4 px-8 bg-secondary rounded-lg'>
+          <div className='w-full flex flex-grow justify-between items-center gap-4 py-4 px-8 bg-dark rounded-lg'>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>10</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.words10?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.words10?.acc ? topModeResult?.words10?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>10 words</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.words10?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.words10?.acc ? topModeResult?.words10?.acc + ' %' : '-' }</span>
             </div>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>15</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.words15?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.words15?.acc ? topModeResult?.words15?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>15 words</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.words15?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.words15?.acc ? topModeResult?.words15?.acc + ' %' : '-' }</span>
             </div>
             <div className='flex basis-16 flex-col items-center gap-2'>
-              <span className='text-sm font-medium text-primary'>20</span>
-              <span className='text-light text-3xl font-semibold'>{ topModeResult?.words20?.wpm || '-' }</span>
-              <span className='text-light text-2xl font-semibold'>{ topModeResult?.words20?.acc ? topModeResult?.words20?.acc + ' %' : '-' }</span>
+              <span className='text-sm font-medium text-secondary'>20 words</span>
+              <span className='text-light text-4xl font-semibold'>{ topModeResult?.words20?.wpm || '-' }</span>
+              <span className='text-light opacity-80 text-2xl font-semibold'>{ topModeResult?.words20?.acc ? topModeResult?.words20?.acc + ' %' : '-' }</span>
             </div>
           </div>
         </>

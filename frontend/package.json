@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.15.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -33,9 +33,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "react-app-rewired": "^2.2.1",
     "tailwindcss": "^3.4.1"
   }
 }

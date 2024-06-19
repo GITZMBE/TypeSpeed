@@ -1,11 +1,12 @@
 import React from 'react'
 import { SignupForm } from '../components/forms';
+import { Container } from 'components/layout';
 
 export const SignupPage = () => {
   return (
-    <div className='w-full flex justify-center items-center flex-grow'>
+    <Container>
       <SignupForm />
-    </div>
+    </Container>
   )
 }
 

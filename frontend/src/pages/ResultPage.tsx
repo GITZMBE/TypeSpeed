@@ -5,6 +5,7 @@ import { TypingResultState } from "../recoil/states";
 import ToolTip from "../components/ui/ToolTip";
 import StatsChart from "../components/layout/StatsChart";
 import { calcAccuracy, calcCpm, calcNetWpm } from "../utils";
+import { Container } from "components/layout";
 
 const ResultPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ResultPage = () => {
   }, [result, navigate]);
 
   return (
-    <div className='w-full h-full flex flex-col justify-center items-center gap-8'>
+    <Container>
       <h1 className='text-5xl text-yellowAcent font-robotoMono'>Result</h1>
       {result && (
         <>
@@ -62,7 +63,7 @@ const ResultPage = () => {
               </div>
             </div>
             <div className="w-full h-full flex flex-col">
-              <StatsChart data={result} className="w-full max-w-[80vw] h-full" />
+              <StatsChart data={result} className="w-full max-w-[80vw] h-full min-h-[40vh]" />
             </div>
           </div>
           <div className='flex items-center gap-4 text-secondary'>
@@ -83,13 +84,13 @@ const ResultPage = () => {
           <Link
             to='/typing'
             onClick={() => setResult(null)}
-            className='text-5xl text-secondary hover:text-light'
+            className='text-5xl text-secondary hover:text-light p-4 border-2 rounded-lg outline-none'
           >
             Try again
           </Link>
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

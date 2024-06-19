@@ -1,11 +1,12 @@
 import React from 'react'
 import { LoginForm } from '../components/forms'
+import { Container } from 'components/layout';
 
 export const LoginPage = () => {
   return (
-    <div className='w-full flex justify-center items-center flex-grow'>
+    <Container>
       <LoginForm />
-    </div>
+    </Container>
   )
 }
 

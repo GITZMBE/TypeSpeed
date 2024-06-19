@@ -1,8 +1,8 @@
 import { Result } from '@prisma/client';
 import { getUserResults } from 'api/api';
-import { ResultsHistory, TopModeResults, TopResults } from 'components/layout';
+import { Container, ResultsHistory, TopModeResults, TopResults } from 'components/layout';
 import React, { useEffect, useState } from 'react';
-import { calcTopResults } from 'utils';
+import { calcTopResults, sortResultDate } from 'utils';
 
 export const StatsPage = () => {
   const [results, setResults] = useState<Result[]>([]);
@@ -20,13 +20,11 @@ export const StatsPage = () => {
   };
 
   return (
-    <div className='w-full h-full min-h-screen flex flex-col justify-center items-center gap-8'>
+    <Container>
       <TopModeResults results={results} />
-      <h2 className='w-full text-light text-3xl'>Top Results</h2>
-      <TopResults results={calcTopResults(results)} />
-      <h2 className='w-full text-light text-3xl'>History</h2>
-      <ResultsHistory results={results} />
-    </div>
+      <TopResults results={calcTopResults(results, 5)} />
+      <ResultsHistory results={sortResultDate(results)} />
+    </Container>
   )
 };
 
