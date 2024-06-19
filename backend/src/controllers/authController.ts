@@ -114,9 +114,30 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = (req: Request, res: Response): Response => {
+export const logout = (req: Request, res: Response) => {
   res.clearCookie(USER_KEY);
   return res.status(200).json({ message: 'Logged out' });
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const token = req.cookies[USER_KEY];
+  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+    const deletedUser = await prisma.user.delete({
+      where: {
+        id: decoded.id
+      }
+    });
+
+    if (!deleteUser) return res.status(500).json({ message: 'Somethings went wrong during the process. Try again later.' });
+
+    return res.status(202).json(deletedUser);
+  } catch (error) {
+    console.error('Error creating result:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };
 
 export const saveResult = async (req: Request, res: Response) => {

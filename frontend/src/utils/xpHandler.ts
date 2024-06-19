@@ -26,7 +26,7 @@ export const calcLevel = (xp: number): LevelInfo => {
 };
 
 export const calcEaredXp = (result: Result) => {
-  let modifier = 1;
+  let modifier = 0;
   if (Math.round(result.acc) === 100) {
     modifier += .5;
   }

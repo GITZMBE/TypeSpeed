@@ -27,9 +27,9 @@ Experience points earned for completing a race. The amount of XP earned is based
 time * 2 * modifier * accuracyModifier
 
 #### Modifier
-+0.5 for 100% accuracy
+- +0.5 for 100% accuracy
 
-+0.25 for achieving no errors or typos
+- +0.25 for achieving no errors or typos
 
 #### Accuracy Modifier
 (accuracy - 50) / 50

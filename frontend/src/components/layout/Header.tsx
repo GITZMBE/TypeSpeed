@@ -35,7 +35,9 @@ export const Header = () => {
           <FaKeyboard className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' onClick={() => {navigate('/typing')}} />
           <FaCrown className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
           <FaInfo className='text-sm sm:text-md text-secondary hover:text-light cursor-pointer' />
-          <IoMdSettings className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
+          <Link to='/settings'>
+            <IoMdSettings className='text-md sm:text-xl text-secondary hover:text-light cursor-pointer' />
+          </Link>
         </div>
       </div>
       <div className='flex gap-4 items-center'>

@@ -5,7 +5,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { HomePage, LoginPage, SignupPage, StatsPage, TypingPage } from "pages";
+import { HomePage, LoginPage, SignupPage, StatsPage, TypingPage, SettingsPage } from "pages";
 import ResultPage from "pages/ResultPage";
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
           <Route path='login' element={<LoginPage />} />
           <Route path='signup' element={<SignupPage />} />
           <Route path='stats' element={<StatsPage />} />
+          <Route path='settings' element={<SettingsPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

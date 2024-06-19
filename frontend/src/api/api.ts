@@ -77,6 +77,19 @@ export const logout = async () => {
   return response.json();
 };
 
+export const deleteUser = async () => {
+  const response = await fetch(`${API_URL}/user-delete`, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
+
+  if (response.ok) {
+    logout();
+  };
+
+  return await response.json();
+};
+
 export const saveResult = async (result: TypingResultDto): Promise<Result | { message: string }> => {
   try {
     const currentUser = await getCurrentUser();
