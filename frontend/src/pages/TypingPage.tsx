@@ -65,7 +65,7 @@ export const TypingPage = () => {
   }, [wpmHistory]);
 
   useEffect(() => {
-    if (words.length > 0 && displayWords.length > 0) return;
+    if (words.length > 0 && displayWords.length > 0 || testHasStarted) return;
     FetchRandomWords()
       .then((res) => {
         setWords(res);
@@ -245,7 +245,7 @@ export const TypingPage = () => {
     setWpmHistory([]);
     setWordIndex(0);
     setLetterIndex(0);
-    setSearchbarFocus(false);
+    setSearchbarFocus(true);
     setCorrectLetters([]);
     setWrongLetters([]);
     setStartTime(null);
@@ -326,6 +326,8 @@ export const TypingPage = () => {
   }, [words]);
 
   useEffect(() => {
+    if (testHasStarted) return;
+    
     FetchRandomWords().then(setWords);
     if (settings.selectedTime) {
       setTime(settings.selectedTime);
@@ -367,14 +369,14 @@ export const TypingPage = () => {
         {testHasStarted && (
           <CurrentSpeedbar currentWpm={currentWpm} currentCpm={currentCpm} testHasStarted={testHasStarted} />
         )}
-        <Settingsbar testHasStarted={testHasStarted} setFocus={setSearchbarFocus} />
+        <Settingsbar testHasStarted={testHasStarted} onClick={e => {e.stopPropagation(); setSearchbarFocus(true)}} />
       </div>
       {(testHasStarted && time) && <div className='w-full text-3xl text-yellowAcent'>{time}</div>}
       <div
         onClick={(e: any) => {
           if (settings.wordsAmount || settings.selectedTime) {
-            setSearchbarFocus(true);
             e.stopPropagation();
+            setSearchbarFocus(true);
           }
         }}
         className='w-full h-64 flex flex-col gap-4 overflow-y-hidden'

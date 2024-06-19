@@ -8,10 +8,9 @@ import DIFFECULTY from "../../models/DIFFECULTY";
 
 interface IProps extends ComponentPropsWithoutRef<"div"> {
   testHasStarted: boolean;
-  setFocus: Dispatch<SetStateAction<boolean>>;
 };
 
-export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
+export const Settingsbar = ({ testHasStarted, ...props }: IProps) => {
   const [settings, setSettings] = useRecoilState(SettingsState);
   const [settingsType, setSettingsType] = useState<string>("words");
 
@@ -25,6 +24,7 @@ export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
 
   return (
     <div
+      {...props}
       className={`w-full flex transition-opacity duration-300 ${
         testHasStarted && "opacity-0"
       }`}
@@ -38,7 +38,7 @@ export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
                 ? "text-yellowAcent"
                 : "text-secondary hover:text-light"
             } p-2 text-nowrap`}
-            onClick={() => {setSettings({ ...settings, difficulty: d }); setFocus(true)}}
+            onClick={() => setSettings({ ...settings, difficulty: d })}
           >
             {DIFFECULTY[d]}
           </button>
@@ -59,8 +59,7 @@ export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
                 } else {
                   return prevSettings;
                 }
-              });
-              setFocus(true)
+              })
             }}
             className={`flex items-center gap-2 text-xl ${
               settingsType === type
@@ -103,9 +102,7 @@ export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
                     setSettings((prevSettings) => ({
                       ...prevSettings,
                       wordsAmount: null,
-                    })),
-                    setFocus(true)
-                    )
+                    })))
               }
             >
               {leng === null ? "No limit" : leng}
@@ -135,9 +132,7 @@ export const Settingsbar = ({ testHasStarted, setFocus, ...props }: IProps) => {
                     setSettings((prevSettings) => ({
                       ...prevSettings,
                       selectedTime: null,
-                    })),
-                    setFocus(true)
-                    )
+                    })))
               }
             >
               {leng === null ? "No limit" : leng}
