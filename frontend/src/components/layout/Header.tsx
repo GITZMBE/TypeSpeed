@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MdTypeSpecimen } from "react-icons/md";
-import { FaBell, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "@prisma/client";
 import { getCurrentUser, logout } from "api/api";
@@ -10,6 +8,7 @@ import { Icon } from "components/ui";
 export const Header = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  
   useEffect(() => {
     getUser();
   }, []);

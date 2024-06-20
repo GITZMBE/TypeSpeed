@@ -31,7 +31,7 @@ export const Icon = ({ icon, className, size = 20, ...props }: IconProps) => {
     case "user":
       return <FaUser size={size} className={`${className} ${defaultClasses}`} {...props} />;
     case "usercircle":
-      return <FaUserCircle size={size} className={`${className} ${defaultClasses}`} {...props} />;
+      return <FaUserCircle size={size} className={`${className} ${defaultClasses} `} {...props} />;
     case "bell":
       return <FaBell size={size} className={`${className} ${defaultClasses}`} {...props} />;
     case "signout":

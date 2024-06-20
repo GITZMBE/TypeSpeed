@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import prisma from '../../prisma';
 import jwt from 'jsonwebtoken';
-import { Result } from '@prisma/client';
 
 const USER_KEY = 'user';
 
