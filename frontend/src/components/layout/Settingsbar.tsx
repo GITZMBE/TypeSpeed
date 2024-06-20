@@ -2,7 +2,7 @@ import React, { ComponentPropsWithoutRef, Dispatch, SetStateAction, useEffect, u
 import { TbSquareLetterA } from "react-icons/tb";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { useRecoilState } from "recoil";
-import { HorizontalDivider } from "../ui";
+import { HorizontalDivider, Icon } from "../ui";
 import { SettingsState } from "../../recoil/states";
 import DIFFECULTY from "../../models/DIFFECULTY";
 
@@ -61,16 +61,20 @@ export const Settingsbar = ({ testHasStarted, ...props }: IProps) => {
                 }
               })
             }}
-            className={`flex items-center gap-2 text-xl ${
+            className={`group flex items-center gap-2 text-xl ${
               settingsType === type
                 ? "text-yellowAcent"
                 : "text-secondary hover:text-light"
             } p-2`}
           >
             {type === "words" ? (
-              <TbSquareLetterA size={24} />
+              <Icon icon="letterA" className={`w-6 h-6 ${settingsType === type
+                ? "text-yellowAcent group-hover:text-yellowAcent"
+                : "text-secondary group-hover:text-light"}`} />
             ) : type === "time" ? (
-              <MdAccessTimeFilled size={24} />
+              <Icon icon="clock" className={`w-6 h-6 group-hover:text-light ${settingsType === type
+                ? "text-yellowAcent group-hover:text-yellowAcent"
+                : "text-secondary group-hover:text-light"}`} />
             ) : (
               <></>
             )}{" "}

@@ -1,10 +1,18 @@
-import { Container } from 'components/layout';
-import React from 'react'
+import { getTopResults } from 'api/api';
+import { Container, LeaderboardResults } from 'components/layout';
+import { ExtendedResult } from 'models';
+import React, { useEffect, useState } from 'react'
 
 export const LeaderboardPage = () => {
+  const [topResults, setTopResults] = useState<ExtendedResult[]>([]);
+
+  useEffect(() => {
+    getTopResults().then(setTopResults);
+  }, []);
+
   return (
     <Container>
-      <h1 className='text-light text-6xl font-semibold tracking-wider'>Leaderboard</h1>
+      <LeaderboardResults results={topResults} />
     </Container>
   )
 }

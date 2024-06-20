@@ -1,4 +1,5 @@
 import { Result, User } from "@prisma/client";
+import { ExtendedResult } from "models";
 import TypingResultDto from "models/TypingResultDto";
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -88,6 +89,22 @@ export const deleteUser = async () => {
   };
 
   return await response.json();
+};
+
+export const getTopResults = async () => {
+  try {
+    const response = await fetch(`${API_URL}/top-results`, {
+      method: 'GET'
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    return await response.json() as ExtendedResult[];
+  } catch (error) {
+    console.error('Error fetching top results:', error);
+  }
 };
 
 export const saveResult = async (result: TypingResultDto): Promise<Result | { message: string }> => {

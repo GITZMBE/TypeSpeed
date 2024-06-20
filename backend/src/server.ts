@@ -2,7 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { login, signup, getCurrentUser, logout, saveResult, getUserResults, updateUser, deleteUser } from './controllers/authController';
+import { login, signup, getCurrentUser, logout, saveResult, getUserResults, updateUser, deleteUser, getTopResults } from './controllers/authController';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ app.post('/login', login);
 app.post('/signup', signup);
 app.get('/current-user', getCurrentUser);
 app.post('/logout', logout);
+app.get('/top-results', getTopResults);
 app.post('/save-result', saveResult);
 app.get('/user-results', getUserResults);
 app.put('/user-update', updateUser);

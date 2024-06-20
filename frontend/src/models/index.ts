@@ -7,3 +7,4 @@ export * from './TypingSettings';
 export * from './ModeResults';
 export * from './TopModeResult';
 export * from './LevelInfo';
+export * from './ExtendedResult';

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import prisma from '../../prisma';
 import jwt from 'jsonwebtoken';
+import { Result } from '@prisma/client';
 
 const USER_KEY = 'user';
 
@@ -134,6 +135,37 @@ export const deleteUser = async (req: Request, res: Response) => {
     if (!deleteUser) return res.status(500).json({ message: 'Somethings went wrong during the process. Try again later.' });
 
     return res.status(202).json(deletedUser);
+  } catch (error) {
+    console.error('Error creating result:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getTopResults = async (req: Request, res: Response) => {
+  try {
+    const highestWpmPerUser = await prisma.result.groupBy({
+      by: ['userId'],
+      _max: {
+        wpm: true,
+      },
+    });
+
+    const results = await prisma.result.findMany({
+      where: {
+        OR: highestWpmPerUser.map(item => ({
+          userId: item.userId,
+          wpm: item._max.wpm,
+        })),
+      },
+      include: {
+        user: true,
+      },
+      orderBy: {
+        wpm: 'desc',
+      },
+    });
+
+    return res.status(201).json(results);
   } catch (error) {
     console.error('Error creating result:', error);
     return res.status(500).json({ message: 'Internal server error' });

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { getCurrentUser } from 'api/api';
-import { ToolTip } from 'components/ui';
+import { Icon, ToolTip } from 'components/ui';
 import { format } from 'date-fns';
 import { LevelInfo } from 'models';
 import React, { useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ export const UserExperience = () => {
     <div className='w-full'>
       <div className='w-fit sm:min-w-80 flex flex-col gap-4 bg-dark text-secondary p-4 rounded-lg'>
         <div className='flex gap-4'>
-          <FaUserCircle size={70} className='' />
+        <Icon icon='usercircle' className='w-20 h-20' />
           <div className='flex flex-col gap-2'>
             <span className='text-light text-4xl font-semibold'>{ user.username }</span>
             <span className='text-sm'>Joined { format(new Date(user.joinedAt), 'dd MMMM yyyy') }</span>

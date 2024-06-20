@@ -9,3 +9,4 @@ export * from './TopModeResults';
 export * from './Container';
 export * from './UserExperience';
 export * from './SettingsDangerzoneField';
+export * from './LeaderboardResults';
