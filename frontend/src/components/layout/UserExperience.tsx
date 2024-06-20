@@ -34,9 +34,13 @@ export const UserExperience = () => {
         {levelInfo && (
           <div className='flex gap-4 items-center'>
             <span className='text-light text-xl'>{ calcLevel(user.xp).level }</span>
-            <div className='w-full h-2 bg-primary rounded-full overflow-hidden'>
-              <div style={{ width: `${100 * levelInfo.remainingXp / levelInfo.xpForLevel}%` }} className='h-full bg-yellowAcent'></div>
-            </div>
+            <ToolTip content={
+              <span>{ user.xp } xp in total</span>
+            }>
+              <div className='w-full h-2 bg-primary rounded-full overflow-hidden'>
+                <div style={{ width: `${100 * levelInfo.remainingXp / levelInfo.xpForLevel}%` }} className='h-full bg-yellowAcent'></div>
+              </div>
+            </ToolTip>
             <ToolTip content={
               <span>{ levelInfo.xpToNextLevel } xp until next level</span>
             }>
