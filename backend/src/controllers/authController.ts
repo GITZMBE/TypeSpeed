@@ -98,7 +98,6 @@ export const updateUser = async (req: Request, res: Response) => {
     if (email && email.trim() !== '') updates.email = email;
     if (password && password.trim() !== '') updates.password = password;
     if (xp) updates.xp = xp + currentUser.xp;
-    console.log(updates)
 
     const updatedUser = await prisma.user.update({
       where: {
